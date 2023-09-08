@@ -1,5 +1,5 @@
 ### DISCLAIMER: I never said it was good code, it just somehow works 🫠
- 
+
 import streamlit as st
 import pandas as pd
 import openai
@@ -9,11 +9,11 @@ import json
 # from langchain.llms import OpenAI
 # from kbcstorage.client import Client
 
-st.set_page_config(page_title="Keboola PromptLab", page_icon="/Users/andreanovakova/Downloads/keboola.png")
+st.set_page_config(page_title="Keboola PromptLab", page_icon="")
 
-logo_image = "/Users/andreanovakova/Downloads/keboolalogox.png"
-logo_html = f'<div style="display: flex; justify-content: flex-end;"><img src="data:image/png;base64,{base64.b64encode(open(logo_image, "rb").read()).decode()}" style="width: 100px; margin-left: -10px;"></div>'
-st.markdown(f"{logo_html}", unsafe_allow_html=True)
+#logo_image = "/Users/andreanovakova/Downloads/keboolalogox.png"
+#logo_html = f'<div style="display: flex; justify-content: flex-end;"><img src="data:image/png;base64,{base64.b64encode(open(logo_image, "rb").read()).decode()}" style="width: 100px; margin-left: -10px;"></div>'
+#st.markdown(f"{logo_html}", unsafe_allow_html=True)
 
 if not "valid_inputs_received" in st.session_state:
     st.session_state["valid_inputs_received"] = False
