@@ -1,7 +1,7 @@
 import streamlit as st
 
-def show_dataset_info(df):
-    st.subheader("Dataset")
+def show_data_info(df):
+    st.subheader("Data")
     st.write("Total rows:", df.shape[0])
     df_num_show = st.number_input("Show:", min_value=0, value=5)
     st.dataframe(df.head(df_num_show))
@@ -13,4 +13,4 @@ def show_dataset_info(df):
 
 
 if __name__ == "__main__":
-      show_dataset_info()
+      show_data_info()

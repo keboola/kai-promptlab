@@ -4,7 +4,7 @@ def apply_prompt_to_row(row, prompt, col_name, placeholder_columns, params):
     text_in = prompt
     for col in placeholder_columns:
         text_in = text_in.replace(f'[{col}]', str(row[col]))
-    conversation = [{"role": "user", "content": f"{text_in}"}]
+    conversation = [{"role": "user", "content": text_in}]
     response = openai.ChatCompletion.create(
         model=params['model'],
         messages=conversation,

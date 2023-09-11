@@ -6,7 +6,7 @@ def improve_prompt_section():
 
     st.subheader("Improve my prompt")
     st.write('Already have ideas but still not sure about the wording of your prompt?')
-    input_prompt = st.text_area("", placeholder="Fill your prompt in here and click the button below :) ", label_visibility="collapsed")
+    input_prompt = st.text_area("", label_visibility="collapsed")
     
     if 'improve_params' not in st.session_state:
         st.session_state.improve_params = None

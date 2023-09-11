@@ -104,7 +104,7 @@ import
         
     conversation = {
             "role": "user", 
-            "content": f"Rephrase the following prompt to be more specific, descriptive and detailed, setting the context for a more informed response, while retaining its original meaning: '{user_input}'."}
+            "content": f"Rephrase the following prompt to be more specific, descriptive and detailed, setting the context for a more informed response, while retaining its original meaning: '{user_input}'."}  
         
     response = openai.ChatCompletion.create(
         model=params['model'],
@@ -129,8 +129,9 @@ import
     return improved_prompts
 
 # "content": f"Rephrase the following prompt to be more specific, descriptive and detailed, setting the context for a more informed response, while retaining its original meaning: '{user_input}'. When rephrasing the prompt, utilize these best practices: {improve_prompt_prompt}."}
+# f"Rephrase the following prompt to be more specific, descriptive and detailed, setting the context for a more informed response, while retaining its original meaning: '{user_input}'."}        
+# "content": f"Use these best practices: {improve_prompt_prompt} and rephrase the following prompt: '{user_input}'. Give only the rephrased prompt as the output."}
         
-
 
 if __name__ == "__main__":
     improve_prompt()

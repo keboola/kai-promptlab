@@ -7,8 +7,8 @@ from langchain.evaluation import load_evaluator
 
 def final_prompts_section(df):
     st.subheader("Final Prompts")
-    st.write('❗️ To use the values from your table, the column name must be included in the prompt as follows: [column]')
-    num_prompts = st.number_input("Choose how many prompts you want to test on a sample of your dataset", min_value=0, value=3, max_value=5)
+    st.write('To use values from your table, you need to specify the column name in the prompt as follows: [column]')
+    num_prompts = st.number_input("Select how many prompts you want to test on a sample of your data", min_value=0, value=3, max_value=5)
 
     prompts = [st.text_area("", 
                 placeholder=f'Prompt {i+1}:', 
@@ -21,7 +21,7 @@ def final_prompts_section(df):
     missing_cols = [col for col in placeholder_columns if col not in df.columns]
 
     if missing_cols:
-        st.warning(f"Your dataset is missing the following columns: {', '.join(missing_cols)}")
+        st.warning(f"Your data is missing the following columns: {', '.join(missing_cols)}")
         st.stop()
 
     if 'response_params' not in st.session_state:
@@ -30,7 +30,7 @@ def final_prompts_section(df):
     with st.expander("__Response parameters setting__"):
         st.session_state.response_params = get_parameters("response_", n=1, disable_n=True)
 
-    rows_to_use = int(st.number_input("Number of rows", min_value=0, value=3, max_value=df.shape[0]))
+    rows_to_use = int(st.number_input("Select the number of rows to apply the prompts to", min_value=0, value=3, max_value=df.shape[0]))
     df_subset = df.head(rows_to_use)
     
     if 'output_content' not in st.session_state:
