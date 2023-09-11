@@ -9,7 +9,8 @@ from load_data import load_data
 from prompt_improvement import improve_prompt_section
 from final_prompts import final_prompts_section
 
-# from src.keboola_storage_api.connection import add_keboola_table_selection
+from src.keboola_storage_api.connection import add_keboola_table_selection
+from src.st_aggrid.st_aggrid import interactive_table
 # from src.keboola_storage_api.upload import main as upload_to_keboola
 
 st.set_page_config(
@@ -36,7 +37,17 @@ openai.api_key = st.sidebar.text_input('Enter your OpenAI API Key:',
 
 os.environ["OPENAI_API_KEY"] = openai.api_key
 
-uploaded_file = st.sidebar.file_uploader('Upload your dataset:', type='csv')
+st.sidebar.markdown("""
+                    Select an upload option:
+                    """)
+
+upload_option = st.sidebar.selectbox('How would you like to upload your data?', ['Upload a CSV file', 'Connect to Keboola Storage', 'Use Demo Dataset'])
+
+if upload_option == 'Connect to Keboola Storage':
+    add_keboola_table_selection()
+    uploaded_file = st.session_state['uploaded_file'] 
+else:
+    uploaded_file = st.sidebar.file_uploader('Upload your dataset:', type='csv')
 
 def main():
 
@@ -44,6 +55,10 @@ def main():
         df = load_data(uploaded_file)
         st.sidebar.success("The dataset has been successfully uploaded.")
         show_data_info(df)
+
+        if st.session_state['uploaded_file'] is not None:
+            interactive_table()
+      
         improve_prompt_section()
         final_prompts_section(df)
 

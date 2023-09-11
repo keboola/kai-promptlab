@@ -12,16 +12,6 @@ Note: the "{{text input here}}" is a placeholder for actual text/context
 1. Use the latest model:
 For best results, we generally recommend using the latest, most capable models. As of November 2022, the best options are the “text-davinci-003” model for text generation, and the “code-davinci-002” model for code generation.
 
-2. Put instructions at the beginning of the prompt and use ### or \"\"\" to separate the instruction and context:
-Less effective:
-Summarize the text below as a bullet point list of the most important points.
-{{text input here}}
-
-Better:
-Summarize the text below as a bullet point list of the most important points.
-Text: \"\"\"
-{{text input here}}
-\"\"\"
 
 3. Be specific, descriptive and as detailed as possible about the desired context, outcome, length, format, style, etc:
 Be specific about the context, outcome, length, format, style, etc.

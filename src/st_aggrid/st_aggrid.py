@@ -6,7 +6,6 @@ from st_aggrid.shared import GridUpdateMode
 ######################################### INTERACTIVE TABLE ############################################################
 def interactive_table():
     query_df = pd.read_csv(st.session_state['uploaded_file'] )
-    st.header("📊 Explore")
     def aggrid_interactive_table(df: pd.DataFrame):
         """Creates an st-aggrid interactive table based on a dataframe.
         Args:
@@ -24,7 +23,7 @@ def interactive_table():
             enable_enterprise_modules=True,
             gridOptions=options.build(),
             theme="streamlit",
-            height=800,
+            height=200,
             update_mode=GridUpdateMode.MODEL_CHANGED,
             allow_unsafe_jscode=True,
         )
