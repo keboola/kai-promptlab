@@ -68,6 +68,9 @@ def _add_table_form():
         st.session_state['selected_table'] = st.selectbox('Table', table_names)
         st.session_state['selected_table_id'] = tables[st.session_state['selected_table']]["id"]
         if st.form_submit_button("Select table"):
+            # if 'data' dir does not exist, create it
+            if not os.path.exists('data'):
+                os.mkdir('data')
             if os.listdir('data') == []:
                 os.mkdir('data')
             data_dir = "data"
