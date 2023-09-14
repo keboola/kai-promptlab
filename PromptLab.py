@@ -16,13 +16,16 @@ from src.st_aggrid.st_aggrid import interactive_table
 #from src.keboola_storage_api.upload import main as upload_to_keboola
 #from sec_final_prompts import final_prompts
 
+image_path = os.path.dirname(os.path.abspath(__file__))
+
 st.set_page_config(
     page_title="Keboola PromptLab",
-    page_icon="static/keboola.png",
+    page_icon=image_path+"/static/keboola.png",
     layout="wide"
     )
 
-logo_image = "static/keboola_logo.png"
+
+logo_image = image_path+"/static/keboola_logo.png"
 logo_html = f'<div style="display: flex; justify-content: flex-end;"><img src="data:image/png;base64,{base64.b64encode(open(logo_image, "rb").read()).decode()}" style="width: 100px; margin-left: -10px;"></div>'
 st.markdown(f"{logo_html}", unsafe_allow_html=True)
 

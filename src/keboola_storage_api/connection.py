@@ -71,8 +71,6 @@ def _add_table_form():
             # if 'data' dir does not exist, create it
             if not os.path.exists('data'):
                 os.mkdir('data')
-                if os.listdir(data_dir) == []:
-                    os.mkdir(data_dir)
             data_dir = "data"
             st.session_state['kbc_storage_client'].tables.export_to_file(
                 table_id=st.session_state['selected_table_id'],
