@@ -2,5 +2,5 @@ streamlit
 pandas
 openai
 langchain
-kbcstorage
-st_aggrid
+git+https://github.com/keboola/sapi-python-client.git
+streamlit-aggrid
