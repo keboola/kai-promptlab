@@ -1,39 +1,29 @@
+# fun_get_parameters.py
+
 import streamlit as st
 
-def get_parameters(prefix="", n=None, disable_n=False):
+def get_parameters(prefix=""):
+    
+    col1, col2, col3 = st.columns(3)
+
     models = [
         "gpt-3.5-turbo", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k-0613", 
         "gpt-4", "gpt-4-0613"
     ]
-    model = st.selectbox("Model", models, key=f"{prefix}set_model")
+    
+    model = col1.selectbox("Model", models, key=f"{prefix}set_model")
 
-    col1, col2, col3 = st.columns(3)
-
-    max_tokens = int(col1.number_input(
+    max_tokens = int(col2.number_input(
         "Max tokens", min_value=0, value=150,
         help="The maximum number of [tokens](https://platform.openai.com/tokenizer) to generate in the chat completion.", 
         key=f"{prefix}set_tokens"
     ))
     
-    temperature = float(col2.slider(
+    temperature = float(col3.slider(
         "Temperature", min_value=0.0, max_value=1.0, value=0.7, 
         help="Lower values for temperature result in more consistent outputs, while higher values generate more diverse and creative results. Select a temperature value based on the desired trade-off between coherence and creativity for your specific application.", 
         key=f"{prefix}set_temp"
     ))
-    
-    if disable_n:
-        col3.number_input(
-            "# of prompt versions", min_value=1, value=1, 
-            help="How many chat completion choices to generate for each input message.",
-            key=f"{prefix}set_n",
-            disabled=True  # Disable the input field
-        )
-    else:
-        n = int(col3.number_input(
-            "# of prompt versions", min_value=1, value=1, 
-            help="How many chat completion choices to generate for each input message.",
-            key=f"{prefix}set_n"
-        ))
 
     col11, col12, col13 = st.columns(3)
     
@@ -59,13 +49,10 @@ def get_parameters(prefix="", n=None, disable_n=False):
         'model': model,
         'max_tokens': max_tokens,
         'temperature': temperature,
-        'n': n,
         'top_p': top_p,
         'presence_penalty': presence_penalty,
         'frequency_penalty': frequency_penalty        
     }
-
-
 
 if __name__ == "__main__":
       get_parameters()
