@@ -3,3 +3,4 @@ pandas
 openai
 langchain
 kbcstorage
+st_aggrid
