@@ -8,3 +8,4 @@ src/.DS_Store
 *.pyc
 *.csv
 *.csv.gz
+data/termsheets_in_markdown
