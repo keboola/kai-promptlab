@@ -30,7 +30,7 @@ def add_keboola_table_selection():
 
 def _add_connection_form():
     with st.sidebar.form("Connection Details"): 
-        connection_url = 'st.secrets["kbc_url"]'
+        connection_url = st.secrets["kbc_url"]
         #connection_url = st.selectbox('Connection URL', KBC_URLS)
         api_key = st.text_input('Keboola Storage Token', 'Enter Storage Token', type="password")
         if st.form_submit_button("Connect"):
