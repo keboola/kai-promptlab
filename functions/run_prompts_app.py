@@ -57,7 +57,8 @@ def run_prompts_app(df):
         with rate_button: 
             rate_click = st.button('Check responses similarity', use_container_width=True, disabled=(num_prompts == 1))
         with get_button: 
-            data_click = st.button('Upload to Keboola', use_container_width=True)
+            prompts_download = str(prompts_list)
+            st.download_button('Download prompts', prompts_download, use_container_width=True)
         with reset_button:
             reset_click = st.button('Reset app', use_container_width=True)
         
@@ -104,10 +105,6 @@ def run_prompts_app(df):
                 st.text(" ")
                 st.write("The closer the score is to 1, the higher the similarity between the responses.")
                 st.dataframe(st.session_state['rating_content'], use_container_width=True)
-        
-        if data_click:
-            st.write("WIP 🤖")
-
 
         if reset_click:
             st.session_state.clear()
