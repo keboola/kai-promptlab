@@ -11,7 +11,7 @@ def prompt_input(row, prompt, col_name, placeholder_columns, params):
         text_in = text_in.replace(f'[[{col}]]', str(row[col]))
 
     conversation = [
-            {"role": "system", "content": "You are a helpful assistant"},
+            {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": text_in}]
     
     try:
