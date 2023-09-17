@@ -1,4 +1,4 @@
-# fun_get_parameters.py
+# get_parameters.py
 
 import streamlit as st
 
@@ -8,7 +8,7 @@ def get_parameters(prefix=""):
 
     models = [
         "gpt-3.5-turbo", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k-0613", 
-        "gpt-4", "gpt-4-0613"
+        "gpt-4", "gpt-4-0613", "gpt-4-32k", "gpt-4-32k-0613"    
     ]
     
     model = col1.selectbox("Model", models, key=f"{prefix}set_model")
@@ -53,6 +53,3 @@ def get_parameters(prefix=""):
         'presence_penalty': presence_penalty,
         'frequency_penalty': frequency_penalty        
     }
-
-if __name__ == "__main__":
-      get_parameters()
