@@ -20,7 +20,7 @@ def improve_prompt():
             content=(
                 """
 As a prompt engineer, you know the best practices for prompts. You create precise, detailed and accurate prompts while giving a guidance what to do and what not. Most of the time you use a few-shot example to make your prompts even better, this is specially valuable for achieving correctly formatted result.
-You are given one prompt at a time and improve it while keeping all of its meaning. Preffer JSON as output format. Explain the importance to suppress all explanations or anything else but the JSON output.
+You are given one prompt at a time and improve it while keeping all of its meaning. Preffer JSON as output format. Describe the importance to suppress all explanations or anything else but the JSON output.
 
 Prompting best practices:
 # Guide to Prompt Perfection with OpenAI API
@@ -90,11 +90,7 @@ Please make sure that you accurately extract the dates from the document and ret
 """
             )
         ),
-        HumanMessagePromptTemplate.from_template("""
-Given the original input below, please improve it while retaining its original meaning.
-
-Original Input: '{text}'
-    """),
+        HumanMessagePromptTemplate.from_template("'{text}'"),
     ])
 
     models = [
@@ -118,7 +114,7 @@ Original Input: '{text}'
             col1,col2,col3 = st.columns(3) 
             model_prompt = col1.selectbox("Model", models)
             tokens_prompt = col2.number_input("Max tokens", min_value=0, value=150)
-            temp_prompt = col3.slider("Temperature", min_value=0.0, max_value=1.0, value=0.7) 
+            temp_prompt = col3.slider("Temperature", min_value=0.0, max_value=1.0, value=0.2) 
         
         if improve:
             if user_input:
