@@ -1,17 +1,17 @@
-# fun_run_prompt.py
+# prompt_input.py
 
+import streamlit as st
 import openai
 import time
-import streamlit as st
 
-def run_prompt(row, prompt, col_name, placeholder_columns, params):
+def prompt_input(row, prompt, col_name, placeholder_columns, params):
     
     text_in = prompt
     for col in placeholder_columns:
-        text_in = text_in.replace(f'[{col}]', str(row[col]))
+        text_in = text_in.replace(f'[[{col}]]', str(row[col]))
 
     conversation = [
-            {"role": "system", "content": "You are a helpful assistant"},
+            {"role": "system", "content": "You are a helpful assistant."},
             {"role": "user", "content": text_in}]
     
     try:
@@ -29,9 +29,6 @@ def run_prompt(row, prompt, col_name, placeholder_columns, params):
     
     except Exception as e:
         st.write(f"An error occurred: {str(e)}")
-        row[col_name] = None
+        row[col_name] = ""
     
     return row
-
-if __name__ == "__main__":
-      run_prompt()
