@@ -30,7 +30,7 @@ def run_prompts_app(df):
     st.text(" ")
     
     num_prompts = st.number_input("Select number of prompts:", min_value=1, value=2, max_value=3)
-    st.write('To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
+    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. For example, you can test how a prompt performs with a higher temperature setting vs. a lower one. 🌡️ To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
     
     prompts_list = get_prompts(num_prompts)
     placeholder_columns = re.findall(r'\[\[(.*?)\]\]', ''.join(prompts_list.values()))
@@ -42,6 +42,8 @@ def run_prompts_app(df):
     rows_to_use = int(st.number_input("Select how many rows of the table you want to use:", min_value=1, value=1, max_value=df.shape[0]))
     df_subset = df.head(rows_to_use)
     
+    st.markdown("Once you're happy with your prompts and settings, hit the button below. The app will then work its magic, running all the prompts and return the responses.")
+   
     if st.button('OKaaaAAAaaAYYYy LETS GO 🎢'):
         prompt_output = prompts_out(df_subset, prompts_list)
         st.session_state["response_content"] = prompt_output
@@ -51,6 +53,8 @@ def run_prompts_app(df):
 
         st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Responses"}</h3>', unsafe_allow_html=True)
         st.text(" ")
+        st.markdown("🔍 The moment of truth! Review the responses and see which prompt fits your data best. Check the responses similarity score to pinpoint areas where prompts might seem contradictory. This is a great way to refine your prompts and understand potential model challenges.")
+        
         st.dataframe(st.session_state["response_content"], use_container_width=True)
 
         rate_button, get_button, reset_button = st.columns(3)

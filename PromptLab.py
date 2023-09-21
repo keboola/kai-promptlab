@@ -9,7 +9,6 @@ import os
 from functions.show_data_info import show_data_info
 from functions.improve_prompt import improve_prompt
 from functions.run_prompts_app import run_prompts_app
-from tabs.guide import app_guide
 
 from src.keboola_storage_api.connection import add_keboola_table_selection
 from src.st_aggrid.st_aggrid import interactive_table
@@ -62,32 +61,35 @@ if upload_option == 'Connect to Keboola Storage':
     uploaded_file = st.session_state['uploaded_file'] 
 
 def main():
-    tab1, tab2 = st.tabs(["PromptLab", "Guide"])
 
-    with tab1:
-        if uploaded_file:
-            
-            df = pd.read_csv(uploaded_file)
-            st.sidebar.success("The table has been successfully uploaded.")
-            
-            show_data_info(df)
-            if st.session_state['uploaded_file'] is not None:
-                interactive_table()
+    if uploaded_file:
+        
+        df = pd.read_csv(uploaded_file)
+        st.sidebar.success("The table has been successfully uploaded.")
+        
+        show_data_info(df)
+        if st.session_state['uploaded_file'] is not None:
+            interactive_table()
 
-            if not openai_api_key:
-                st.warning("To continue, please enter your OpenAI API Key.", icon="⚠️")
-                
-            improve_prompt()
-            run_prompts_app(df)
-            st.text(" ")
-            st.markdown(f"{logo_html}", unsafe_allow_html=True)
+        if not openai_api_key:
+            st.warning("To continue, please enter your OpenAI API Key.", icon="⚠️")
+            
+        improve_prompt()
+        run_prompts_app(df)
+        st.text(" ")
+        st.markdown(f"{logo_html}", unsafe_allow_html=True)
+    
+    else:
+        st.markdown("""
+### Welcome to Keboola PromptLab!
+
+🔄 Start by connecting to the Keboola storage, you'll need your API token to do this. Just go to _Settings_ in your Keboola account and find the _API Tokens_ tab (see the [documentation](https://help.keboola.com/management/project/tokens/) for more information).
+Once connected, you'll be able to select the bucket and table you want to work with. 
+                    """)
         
-        else:
-            app_guide()
-            st.warning("Please upload a table.", icon="⚠️")
-    with tab2: 
-        app_guide()
-        
+        st.warning("Please upload a table.", icon="⚠️")
+
+
     hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}

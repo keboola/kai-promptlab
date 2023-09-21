@@ -30,6 +30,11 @@ def prompts_out(df, dict):
         if dict[prompt_key]:
             apply_prompt_state = st.text('Something is cooking...')
             placeholder_columns = re.findall(r'\[\[(.*?)\]\]', dict[prompt_key])
+
+            for col in placeholder_columns:
+                if col in df.columns:
+                    prompt_output[col] = df[col]
+
             result_series = df.apply(
                 prompt_input, 
                 args=(dict[prompt_key], prompt_key, placeholder_columns, st.session_state[f"response_params_{idx+1}"]),
