@@ -9,6 +9,7 @@ import os
 from functions.show_data_info import show_data_info
 from functions.improve_prompt import improve_prompt
 from functions.run_prompts_app import run_prompts_app
+from tabs.guide import app_guide
 
 from src.keboola_storage_api.connection import add_keboola_table_selection
 from src.st_aggrid.st_aggrid import interactive_table
@@ -61,27 +62,32 @@ if upload_option == 'Connect to Keboola Storage':
     uploaded_file = st.session_state['uploaded_file'] 
 
 def main():
+    tab1, tab2 = st.tabs(["PromptLab", "Guide"])
 
-    if uploaded_file:
-        
-        df = pd.read_csv(uploaded_file)
-        st.sidebar.success("The table has been successfully uploaded.")
-        
-        show_data_info(df)
-        if st.session_state['uploaded_file'] is not None:
-            interactive_table()
-
-        if not openai_api_key:
-            st.warning("To continue, please enter your OpenAI API Key.", icon="⚠️")
+    with tab1:
+        if uploaded_file:
             
-        improve_prompt()
-        run_prompts_app(df)
-        st.text(" ")
-        st.markdown(f"{logo_html}", unsafe_allow_html=True)
-    
-    else:
-        st.warning("Please upload a table.", icon="⚠️")
+            df = pd.read_csv(uploaded_file)
+            st.sidebar.success("The table has been successfully uploaded.")
+            
+            show_data_info(df)
+            if st.session_state['uploaded_file'] is not None:
+                interactive_table()
 
+            if not openai_api_key:
+                st.warning("To continue, please enter your OpenAI API Key.", icon="⚠️")
+                
+            improve_prompt()
+            run_prompts_app(df)
+            st.text(" ")
+            st.markdown(f"{logo_html}", unsafe_allow_html=True)
+        
+        else:
+            app_guide()
+            st.warning("Please upload a table.", icon="⚠️")
+    with tab2: 
+        app_guide()
+        
     hide_streamlit_style = """
             <style>
             #MainMenu {visibility: hidden;}
