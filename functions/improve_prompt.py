@@ -18,6 +18,7 @@ def improve_prompt():
     [
         SystemMessage(
             content=(
+<<<<<<< Updated upstream
                 """
 As a prompt engineer, you know the best practices for prompts. You create precise, detailed and accurate prompts while giving a guidance what to do and what not. Most of the time you use a few-shot example to make your prompts even better, this is specially valuable for achieving correctly formatted result.
 You are given one prompt at a time and improve it while keeping all of its meaning. Preffer JSON as output format. Describe the importance to suppress all explanations or anything else but the JSON output.
@@ -25,6 +26,43 @@ You are given one prompt at a time and improve it while keeping all of its meani
 Prompting best practices:
 # Guide to Prompt Perfection with OpenAI API
 
+=======
+<<<<<<< Updated upstream
+                "You are a prompt engineer."
+=======
+                """
+You create precise, detailed and accurate prompts containing a guidance what to do and what not. Most of the time you use a few-shot example to make your prompts even better, this is specially valuable for achieving correctly formatted result.
+You are given one prompt at a time and improve it while keeping all of its meaning. Prefer JSON as output format. Describe the importance to suppress all explanations or anything else but the JSON output.
+
+Your output is always just an improved prompt starting with ###Task: and ending with single ``` to allow for appending the input.  Provide a few shot example (100 - 500 words) in the improved prompt if you see fit.
+
+Here are two examples of request response.
+prompt:'Extract dates from the text.'
+response:'###Task: Extract Dates from Text
+You are given a document that contains dates. Extract all the dates from the document and return them as a JSON array. 
+
+Example document:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit enim, eu congue velit porta et. Mauris nec rutrum velit, non eleifend sapien. From 2020-01-05 to now.
+
+Investors:
+1. Investor 1 (2022/11/01)
+2. Investor 2 (1.7.2008)
+3. Tři (03/03/1980)
+Example output: {"dates":["2020-01-05", "2022/11/01", "1.7.2008", "03/03/1980"]}
+```
+'
+##
+prompt:'Extract dates from the text.',
+response:'###Task: Extract Dates from Text
+You are given a document that contains dates. Extract all the dates from the document and return them as a JSON array. 
+Example document:
+From 2020-01-05 everything should be in blue color. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit enim, eu congue velit porta et. Mauris nec rutrum velit, non eleifend sapien. Till 03/03/1980 it was all just fun.
+Example output: {"dates":["2020-01-05", "03/03/1980"]}
+```'
+
+You follow prompting best practices in your responses.
+Prompting best practices:
+>>>>>>> Stashed changes
 ## Rules of Thumb and Examples
 
 - **Instruction Placement**: 
@@ -63,6 +101,7 @@ Prompting best practices:
     import
     Write a Python function to add two numbers.
     ```
+<<<<<<< Updated upstream
 
 ## Additional Tips
 
@@ -88,6 +127,10 @@ Example output: {"dates":["2020-01-05", "2022/11/01", "1.7.2008", "03-03/1980"]}
 
 Please make sure that you accurately extract the dates from the document and return them as an array.
 """
+=======
+"""
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             )
         ),
         HumanMessagePromptTemplate.from_template("'{text}'"),
@@ -110,19 +153,29 @@ Please make sure that you accurately extract the dates from the document and ret
         with col2: 
             improve = st.button("Improve", use_container_width=True)
         
+<<<<<<< Updated upstream
         with st.expander("__Improve prompt parameters setting__"):
             col1,col2,col3 = st.columns(3) 
             model_prompt = col1.selectbox("Model", models)
             tokens_prompt = col2.number_input("Max tokens", min_value=0, value=150)
+<<<<<<< Updated upstream
             temp_prompt = col3.slider("Temperature", min_value=0.0, max_value=1.0, value=0.2) 
+=======
+            temp_prompt = col3.slider("Temperature", min_value=0.0, max_value=1.0, value=0.7) 
+=======
+        with st.expander("__Set the temperature__"):
+            col1, _, _ = st.columns(3)
+            temp_prompt = col1.slider("Temperature", min_value=0.0, max_value=1.0, value=0.25) 
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         
         if improve:
             if user_input:
-                llm = ChatOpenAI(model=model_prompt, temperature=temp_prompt, max_tokens=tokens_prompt)
+                llm = ChatOpenAI(model="gpt-4", temperature=temp_prompt, max_tokens=1000)
                 improved_input = llm(template.format_messages(text=user_input))
                 
                 st.session_state.improved_content = improved_input.content
                 st.session_state.last_user_input = user_input
             
         if "improved_content" in st.session_state:
-            st.write(st.session_state.improved_content)
+            st.code(st.session_state.improved_content, language="json")
