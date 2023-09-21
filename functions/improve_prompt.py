@@ -18,18 +18,6 @@ def improve_prompt():
     [
         SystemMessage(
             content=(
-<<<<<<< Updated upstream
-                """
-As a prompt engineer, you know the best practices for prompts. You create precise, detailed and accurate prompts while giving a guidance what to do and what not. Most of the time you use a few-shot example to make your prompts even better, this is specially valuable for achieving correctly formatted result.
-You are given one prompt at a time and improve it while keeping all of its meaning. Preffer JSON as output format. Describe the importance to suppress all explanations or anything else but the JSON output.
-
-Prompting best practices:
-# Guide to Prompt Perfection with OpenAI API
-
-=======
-<<<<<<< Updated upstream
-                "You are a prompt engineer."
-=======
                 """
 You create precise, detailed and accurate prompts containing a guidance what to do and what not. Most of the time you use a few-shot example to make your prompts even better, this is specially valuable for achieving correctly formatted result.
 You are given one prompt at a time and improve it while keeping all of its meaning. Prefer JSON as output format. Describe the importance to suppress all explanations or anything else but the JSON output.
@@ -47,7 +35,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis el
 Investors:
 1. Investor 1 (2022/11/01)
 2. Investor 2 (1.7.2008)
-3. Tři (03/03/1980)
+3. Three (03/03/1980)
 Example output: {"dates":["2020-01-05", "2022/11/01", "1.7.2008", "03/03/1980"]}
 ```
 '
@@ -62,7 +50,6 @@ Example output: {"dates":["2020-01-05", "03/03/1980"]}
 
 You follow prompting best practices in your responses.
 Prompting best practices:
->>>>>>> Stashed changes
 ## Rules of Thumb and Examples
 
 - **Instruction Placement**: 
@@ -101,45 +88,11 @@ Prompting best practices:
     import
     Write a Python function to add two numbers.
     ```
-<<<<<<< Updated upstream
-
-## Additional Tips
-
-- **Prompt Formats**: Different formats may align better with tasks. For instance, a conversational format might work best for chatbots, while a directive format suits data extraction.
-
-Your output is always just an improved prompt.
-Example input prompt to improve: Extract dates from the text.
-Example improved prompt (your output):
-###
-Task: Extract Dates from Text
-
-You are given a document that contains dates. Extract all the dates from the document and return them as a JSON array.
-
-Example document:
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis elit enim, eu congue velit porta et. Mauris nec rutrum velit, non eleifend sapien. From 2020-01-05 to now.
-
-Investors:
-1. Investor 1 (2022/11/01)
-2. Investor 2 (1.7.2008)
-3. Tři (03/03/1980)
-Example output: {"dates":["2020-01-05", "2022/11/01", "1.7.2008", "03-03/1980"]}
-```
-
-Please make sure that you accurately extract the dates from the document and return them as an array.
-"""
-=======
-"""
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+    """
             )
         ),
         HumanMessagePromptTemplate.from_template("'{text}'"),
     ])
-
-    models = [
-        "gpt-3.5-turbo", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k-0613", 
-        "gpt-4", "gpt-4-0613", "gpt-4-32k", "gpt-4-32k-0613"
-    ]
     
     st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Improve"}</h3>', 
                 unsafe_allow_html=True)
@@ -153,21 +106,9 @@ Please make sure that you accurately extract the dates from the document and ret
         with col2: 
             improve = st.button("Improve", use_container_width=True)
         
-<<<<<<< Updated upstream
-        with st.expander("__Improve prompt parameters setting__"):
-            col1,col2,col3 = st.columns(3) 
-            model_prompt = col1.selectbox("Model", models)
-            tokens_prompt = col2.number_input("Max tokens", min_value=0, value=150)
-<<<<<<< Updated upstream
-            temp_prompt = col3.slider("Temperature", min_value=0.0, max_value=1.0, value=0.2) 
-=======
-            temp_prompt = col3.slider("Temperature", min_value=0.0, max_value=1.0, value=0.7) 
-=======
         with st.expander("__Set the temperature__"):
             col1, _, _ = st.columns(3)
             temp_prompt = col1.slider("Temperature", min_value=0.0, max_value=1.0, value=0.25) 
->>>>>>> Stashed changes
->>>>>>> Stashed changes
         
         if improve:
             if user_input:
