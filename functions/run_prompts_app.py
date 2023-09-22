@@ -46,33 +46,10 @@ def run_prompts_app(df):
     df_subset = df.head(rows_to_use)
     
     st.markdown("Once you're happy with your prompts and settings, hit the button below. The app will then work its magic, running all the prompts and return the responses.")
-   
-
-    def display_messages(placeholder, event):
-        index = 0
-        while not event.is_set():
-            placeholder.text(messages[index])
-            index = (index + 1) % len(messages)
-            time.sleep(1)
-        placeholder.text("Done! 👨‍🍳")
 
     if st.button('OKaaaAAAaaAYYYy LETS GO 🎢'):
-        placeholder = st.empty()
-        done_event = threading.Event()
-
-        def run_function():
-            prompt_output = prompts_out(df_subset, prompts_list)
-            st.session_state["response_content"] = prompt_output
-            done_event.set()
-
-        thread = threading.Thread(target=run_function)
-        thread.start()
-
-        display_messages(placeholder, done_event)
-
-    #if st.button('OKaaaAAAaaAYYYy LETS GO 🎢'):
-     #   prompt_output = prompts_out(df_subset, prompts_list)
-      #  st.session_state["response_content"] = prompt_output
+        prompt_output = prompts_out(df_subset, prompts_list)
+        st.session_state["response_content"] = prompt_output
         
     # Display results 
     if st.session_state["response_content"] is not None:
