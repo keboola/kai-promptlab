@@ -3,9 +3,12 @@
 import streamlit as st
 import re 
 import math
+import time
+import threading
 
 from sentence_transformers import SentenceTransformer, util
 from functions.prompt_output import get_prompts, prompts_out
+from functions.processing_messages import messages
 
 def init_session_states():
         default_params = {
@@ -25,10 +28,10 @@ def run_prompts_app(df):
     init_session_states()
     
     # Run prompts
-    st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"🤹 Test"}</h3>', 
+    st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Test"}</h3>', 
                 unsafe_allow_html=True)
     st.text(" ")
-    st.markdown('This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. For example, you can test how a prompt performs with a higher temperature setting vs. a lower one. To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
+    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. For example, you can test how a prompt performs with a higher temperature setting vs. a lower one. To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
     
     num_prompts = st.number_input("Select number of prompts:", min_value=1, value=2, max_value=3)
     
@@ -44,16 +47,39 @@ def run_prompts_app(df):
     
     st.markdown("Once you're happy with your prompts and settings, hit the button below. The app will then work its magic, running all the prompts and return the responses.")
    
+
+    def display_messages(placeholder, event):
+        index = 0
+        while not event.is_set():
+            placeholder.text(messages[index])
+            index = (index + 1) % len(messages)
+            time.sleep(1)
+        placeholder.text("Done! 👨‍🍳")
+
     if st.button('OKaaaAAAaaAYYYy LETS GO 🎢'):
-        prompt_output = prompts_out(df_subset, prompts_list)
-        st.session_state["response_content"] = prompt_output
+        placeholder = st.empty()
+        done_event = threading.Event()
+
+        def run_function():
+            prompt_output = prompts_out(df_subset, prompts_list)
+            st.session_state["response_content"] = prompt_output
+            done_event.set()
+
+        thread = threading.Thread(target=run_function)
+        thread.start()
+
+        display_messages(placeholder, done_event)
+
+    #if st.button('OKaaaAAAaaAYYYy LETS GO 🎢'):
+     #   prompt_output = prompts_out(df_subset, prompts_list)
+      #  st.session_state["response_content"] = prompt_output
         
     # Display results 
     if st.session_state["response_content"] is not None:
 
-        st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"🔍 Responses"}</h3>', unsafe_allow_html=True)
+        st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Responses"}</h3>', unsafe_allow_html=True)
         st.text(" ")
-        st.markdown("Review the responses and see which prompt fits your data best. Check the responses similarity score to pinpoint areas where prompts might seem contradictory. This is a great way to refine your prompts and understand potential model challenges.")
+        st.markdown("🔍 Review the responses and see which prompt fits your data best. You can also check the responses similarity score to pinpoint areas where prompts might seem contradictory. This is a great way to refine your prompts and understand potential model challenges.")
 
         st.dataframe(st.session_state["response_content"], use_container_width=True)
 
@@ -107,7 +133,7 @@ def run_prompts_app(df):
             if st.session_state['rating_content'] is not None:
                 st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Rating"}</h3>', unsafe_allow_html=True)
                 st.text(" ")
-                st.write("The closer the score is to 1, the higher the similarity between the responses.")
+                st.write("🥇 The closer the score is to 1, the higher the similarity between the responses.")
                 st.dataframe(st.session_state['rating_content'], use_container_width=True)
 
         if reset_click:

@@ -4,7 +4,7 @@ import streamlit as st
 
 def show_data_info(df):
 
-    st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"📊 Explore"}</h3>', 
+    st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Explore"}</h3>', 
                 unsafe_allow_html=True)
     st.text(" ")
     

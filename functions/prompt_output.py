@@ -28,7 +28,7 @@ def prompts_out(df, dict):
     
     for idx, prompt_key in enumerate(dict.keys()):
         if dict[prompt_key]:
-            apply_prompt_state = st.text('Something is cooking...')
+            # apply_prompt_state = st.text('Something is cooking...')
             placeholder_columns = re.findall(r'\[\[(.*?)\]\]', dict[prompt_key])
 
             for col in placeholder_columns:
@@ -41,6 +41,6 @@ def prompts_out(df, dict):
                 axis=1
             )
             prompt_output[prompt_key] = result_series[prompt_key]
-            apply_prompt_state.text("Done! 👨‍🍳")
+            # apply_prompt_state.text("Done! 👨‍🍳")
         
     return prompt_output

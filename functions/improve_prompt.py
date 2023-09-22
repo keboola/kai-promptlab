@@ -25,10 +25,10 @@ def improve_prompt():
         HumanMessagePromptTemplate.from_template("'{text}'"),
     ])
     
-    st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"🛠️ Improve"}</h3>', 
+    st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Improve"}</h3>', 
                 unsafe_allow_html=True)
     st.text(" ")
-    st.markdown("Already have ideas but still unsure about the wording of your current prompt? Enter your idea, hit the __'Improve'__ button and voilà! You'll get an improved version that follows prompt engineering best practices.")
+    st.markdown("🛠️ Already have ideas but still unsure about the wording of your current prompt? Enter your idea, hit the __'Improve'__ button and voilà! You'll get an improved version that follows prompt engineering best practices.")
     
     with st.chat_message("user", avatar="💬"):
         col1, col2 = st.columns([7, 1])

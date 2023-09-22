@@ -72,7 +72,7 @@ def main():
             interactive_table()
 
         if not openai_api_key:
-            st.warning("To continue, please enter your OpenAI API Key.", icon="⚠️")
+            st.warning("To continue, please enter your OpenAI API Key.")
             
         improve_prompt()
         run_prompts_app(df)
@@ -81,14 +81,11 @@ def main():
     
     else:
         st.markdown("""
-### Welcome to Keboola PromptLab!
-
+__Welcome to Keboola PromptLab!__ 
+            
 🔄 Start by connecting to the Keboola storage, you'll need your API token to do this. Just go to _Settings_ in your Keboola account and find the _API Tokens_ tab (see the [documentation](https://help.keboola.com/management/project/tokens/) for more information).
 Once connected, you'll be able to select the bucket and table you want to work with. 
                     """)
-        
-        st.warning("Please upload a table.", icon="⚠️")
-
 
     hide_streamlit_style = """
             <style>
