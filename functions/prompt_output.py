@@ -11,7 +11,7 @@ def get_prompts(num_prompts):
     prompts_list = {}
     for i in range(num_prompts):
         prompt_input = st.text_area(
-            "", 
+            f'Prompt {i+1}:', 
             placeholder=f'Prompt {i+1}:', 
             label_visibility="collapsed"
         )
@@ -26,21 +26,26 @@ def get_prompts(num_prompts):
 def prompts_out(df, dict):
     prompt_output = pd.DataFrame(index=df.index)
     
+    placeholder_dict = {}
+    for prompt_key in dict.keys():
+        if dict[prompt_key]:
+            placeholder_dict[prompt_key] = re.findall(r'\[\[(.*?)\]\]', dict[prompt_key])
+        
     for idx, prompt_key in enumerate(dict.keys()):
         if dict[prompt_key]:
-            # apply_prompt_state = st.text('Something is cooking...')
-            placeholder_columns = re.findall(r'\[\[(.*?)\]\]', dict[prompt_key])
 
-            for col in placeholder_columns:
-                if col in df.columns:
-                    prompt_output[col] = df[col]
+            apply_prompt_state = st.text('Something is cooking...')
+            placeholder_columns = placeholder_dict[prompt_key]
 
+            relevant_cols = [col for col in placeholder_columns if col in df.columns]
+            prompt_output[relevant_cols] = df[relevant_cols]
+            
             result_series = df.apply(
                 prompt_input, 
                 args=(dict[prompt_key], prompt_key, placeholder_columns, st.session_state[f"response_params_{idx+1}"]),
                 axis=1
             )
             prompt_output[prompt_key] = result_series[prompt_key]
-            # apply_prompt_state.text("Done! 👨‍🍳")
+            apply_prompt_state.text("Done! 👨‍🍳")
         
     return prompt_output

@@ -1,6 +1,5 @@
 # improve_prompt.py
 
-
 import streamlit as st
 
 from langchain.prompts import ChatPromptTemplate
@@ -33,7 +32,7 @@ def improve_prompt():
     with st.chat_message("user", avatar="💬"):
         col1, col2 = st.columns([7, 1])
         with col1: 
-            user_input = st.text_input("", label_visibility="collapsed")
+            user_input = st.text_input("User input", label_visibility="collapsed")
         with col2: 
             improve = st.button("Improve", use_container_width=True)
         

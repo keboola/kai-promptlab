@@ -3,12 +3,10 @@
 import streamlit as st
 import re 
 import math
-import time
-import threading
+import json 
 
 from sentence_transformers import SentenceTransformer, util
 from functions.prompt_output import get_prompts, prompts_out
-from functions.processing_messages import messages
 
 def init_session_states():
         default_params = {
@@ -63,9 +61,24 @@ def run_prompts_app(df):
         rate_button, get_button, reset_button = st.columns(3)
         with rate_button: 
             rate_click = st.button('Check responses similarity', use_container_width=True, disabled=(num_prompts == 1))
+        
         with get_button: 
-            prompts_download = str(prompts_list)
+            prompts_list = [{"name": key, "message": value} for key, value in prompts_list.items()]
+            params_list = []
+
+            for i in range(num_prompts):
+                param_key = f"response_params_{i+1}"
+                if param_key in st.session_state:
+                    params_list.append(st.session_state[param_key])
+            
+            combined_strings = []
+            for prompt_dict, param_dict in zip(prompts_list, params_list):
+                combined_data = {**prompt_dict, **param_dict}
+                combined_strings.append(json.dumps(combined_data, indent=2))
+
+            prompts_download = '\n\n'.join(combined_strings)
             st.download_button('Download prompts', prompts_download, use_container_width=True)
+        
         with reset_button:
             reset_click = st.button('Reset app', use_container_width=True)
         
