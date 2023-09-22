@@ -29,9 +29,10 @@ def run_prompts_app(df):
     st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Test"}</h3>', 
                 unsafe_allow_html=True)
     st.text(" ")
-    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. For example, you can test how a prompt performs with a higher temperature setting vs. a lower one. To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
+    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. For example, you can test how a prompt performs with a higher temperature setting vs. a lower one.')
     
     num_prompts = st.number_input("Select number of prompts:", min_value=1, value=2, max_value=3)
+    st.markdown('To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
     
     prompts_list = get_prompts(num_prompts)
     placeholder_columns = re.findall(r'\[\[(.*?)\]\]', ''.join(prompts_list.values()))

@@ -34,15 +34,18 @@ def prompts_out(df, prompts):
             placeholder_dict[prompt_key] = re.findall(r'\[\[(.*?)\]\]', prompts[prompt_key])
         
     for idx, prompt_key in enumerate(prompts.keys()):
+       if prompts[prompt_key]:
+            placeholder_columns_in_df = placeholder_dict[prompt_key]
+            relevant_cols = [col for col in placeholder_columns_in_df if col in df.columns]
+            prompt_output[relevant_cols] = df[relevant_cols]  
+    
+    for idx, prompt_key in enumerate(prompts.keys()):
         random_message = random.choice(messages)
         if prompts[prompt_key]:
 
             apply_prompt_state = st.text(random_message)
             placeholder_columns = placeholder_dict[prompt_key]
 
-            relevant_cols = [col for col in placeholder_columns if col in df.columns]
-            prompt_output[relevant_cols] = df[relevant_cols]
-            
             result_series = df.apply(
                 prompt_input, 
                 args=(prompts[prompt_key], prompt_key, placeholder_columns, st.session_state[f"response_params_{idx+1}"]),
