@@ -3,9 +3,11 @@
 import streamlit as st
 import pandas as pd
 import re
+import random
 
 from functions.get_parameters import get_parameters
 from functions.prompt_input import prompt_input
+from functions.processing_messages import messages
 
 def get_prompts(num_prompts):
     prompts_list = {}
@@ -23,18 +25,19 @@ def get_prompts(num_prompts):
 
     return prompts_list
 
-def prompts_out(df, dict):
+def prompts_out(df, prompts):
     prompt_output = pd.DataFrame(index=df.index)
     
     placeholder_dict = {}
-    for prompt_key in dict.keys():
-        if dict[prompt_key]:
-            placeholder_dict[prompt_key] = re.findall(r'\[\[(.*?)\]\]', dict[prompt_key])
+    for prompt_key in prompts.keys():
+        if prompts[prompt_key]:
+            placeholder_dict[prompt_key] = re.findall(r'\[\[(.*?)\]\]', prompts[prompt_key])
         
-    for idx, prompt_key in enumerate(dict.keys()):
-        if dict[prompt_key]:
+    for idx, prompt_key in enumerate(prompts.keys()):
+        random_message = random.choice(messages)
+        if prompts[prompt_key]:
 
-            apply_prompt_state = st.text('Something is cooking...')
+            apply_prompt_state = st.text(random_message)
             placeholder_columns = placeholder_dict[prompt_key]
 
             relevant_cols = [col for col in placeholder_columns if col in df.columns]
@@ -42,10 +45,10 @@ def prompts_out(df, dict):
             
             result_series = df.apply(
                 prompt_input, 
-                args=(dict[prompt_key], prompt_key, placeholder_columns, st.session_state[f"response_params_{idx+1}"]),
+                args=(prompts[prompt_key], prompt_key, placeholder_columns, st.session_state[f"response_params_{idx+1}"]),
                 axis=1
             )
             prompt_output[prompt_key] = result_series[prompt_key]
-            apply_prompt_state.text("Done! 👨‍🍳")
+            apply_prompt_state.text("Done! ✔️")
         
     return prompt_output

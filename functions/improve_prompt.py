@@ -21,7 +21,7 @@ def improve_prompt():
         SystemMessage(
             content=best_practices_var    
         ),
-        HumanMessagePromptTemplate.from_template("'{text}'"),
+        HumanMessagePromptTemplate.from_template("{text}"),
     ])
     
     st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Improve"}</h3>', 
