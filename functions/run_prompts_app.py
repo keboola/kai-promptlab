@@ -109,7 +109,7 @@ def run_prompts_app(df):
         if rate_click:
             rating_input = st.session_state["response_content"].copy()
             model = SentenceTransformer('paraphrase-MiniLM-L6-v2') 
-            rating_input["similarity_score"] = rating_input.apply(lambda row: compute_similarity_product(row, num_prompts), axis=1)
+            rating_input["similarity_score"] = rating_input.apply(lambda row: compute_similarity_product(row, num_prompts, model), axis=1)
             cols = ['similarity_score'] + [col for col in rating_input if col != 'similarity_score']
             rating_input = rating_input[cols]
             st.session_state['rating_content'] = rating_input

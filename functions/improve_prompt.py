@@ -2,8 +2,7 @@
 
 import streamlit as st
 
-from langchain.prompts import ChatPromptTemplate
-from langchain.prompts.chat import SystemMessage, HumanMessagePromptTemplate
+from langchain.schema import SystemMessage, HumanMessage
 from langchain.chat_models import ChatOpenAI
 
 from functions.best_practices import best_practices_var
@@ -15,14 +14,14 @@ DEFAULT_TEMP = 0.25
 # Improve user input
 def get_improved_input(user_input, temperature):
     llm = ChatOpenAI(model=MODEL, temperature=temperature, max_tokens=MAX_TOKENS)
-    template = ChatPromptTemplate.from_messages(
-    [
+    messages = [
         SystemMessage(
             content=best_practices_var    
         ),
-        HumanMessagePromptTemplate.from_template("{text}")
-    ])
-    return llm(template.format_messages(text=user_input))
+        HumanMessage(
+            content=user_input),
+    ]
+    return llm(messages)
 
 # Get user input and return improved
 def improve_prompt_ui():

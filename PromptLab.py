@@ -31,7 +31,7 @@ def display_logo():
     st.markdown(f"{logo_html}", unsafe_allow_html=True)
 
 def set_api_key(): 
-    openai_api_key = st.sidebar.text_input('Enter your OpenAI API Key:',
+    OPENAI_API_KEY = st.sidebar.text_input('Enter your OpenAI API Key:',
         help= """
         You can get your own OpenAI API key by following these instructions:
         1. Go to https://platform.openai.com/account/api-keys.
@@ -41,9 +41,9 @@ def set_api_key():
         type="password",
         )
 
-    os.environ["OPENAI_API_KEY"] = openai_api_key
-    openai.api_key = openai_api_key
-    return openai_api_key
+    os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+    openai.api_key = OPENAI_API_KEY
+    return OPENAI_API_KEY
 
 def get_uploaded_file(upload_option):
     if upload_option == 'Connect to Keboola Storage':
@@ -51,11 +51,12 @@ def get_uploaded_file(upload_option):
         st.session_state.setdefault('uploaded_file', None)
     elif upload_option == 'Upload a CSV file':
         file = st.sidebar.file_uploader("Choose a file")
-        st.session_state['uploaded_file'] = file
+        if file:
+            st.session_state['uploaded_file'] = file
     elif upload_option == 'Use Demo Dataset':
         file = image_path + "/data/sample_data.csv"
         st.session_state['uploaded_file'] = file
-        
+
     return st.session_state.get('uploaded_file')
 
 def display_main_content(uploaded_file, openai_api_key):
@@ -64,7 +65,8 @@ def display_main_content(uploaded_file, openai_api_key):
         st.sidebar.success("The table has been successfully uploaded.")
         
         show_data_info(df)
-        interactive_table()
+        if st.session_state['uploaded_file'] is not None:
+            interactive_table()
 
         if not openai_api_key:
             st.warning("To continue, please enter your OpenAI API Key.")
