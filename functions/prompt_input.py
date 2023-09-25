@@ -4,8 +4,8 @@ import streamlit as st
 import openai
 import time
 
+# OpenAI chat completion
 def prompt_input(row, prompt, col_name, placeholder_columns, params):
-    
     text_in = prompt
     for col in placeholder_columns:
         text_in = text_in.replace(f'[[{col}]]', str(row[col]))
