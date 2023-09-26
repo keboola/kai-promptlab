@@ -50,13 +50,11 @@ def get_uploaded_file(upload_option):
         add_keboola_table_selection()
         st.session_state.setdefault('uploaded_file', None)
     elif upload_option == 'Upload a CSV file':
-        file = st.sidebar.file_uploader("Choose a file")
-        if file:
-            st.session_state['uploaded_file'] = file
+        file = st.sidebar.file_uploader("Choose a file", type='csv')
+        st.session_state['uploaded_file'] = file
     elif upload_option == 'Use Demo Dataset':
         file = image_path + "/data/sample_data.csv"
         st.session_state['uploaded_file'] = file
-
     return st.session_state.get('uploaded_file')
 
 def display_main_content(uploaded_file, openai_api_key):
