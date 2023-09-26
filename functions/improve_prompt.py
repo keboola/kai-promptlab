@@ -48,6 +48,7 @@ def improve_prompt_ui():
             
             if "improved_content" in st.session_state:
                 st.code(st.session_state.improved_content, language="http")
+                st.write("💡 If you use the improved prompt, the best practice is to put your inputs after the backticks.")
 
 def improve_prompt():
     if 'improved_content' not in st.session_state:

@@ -1,5 +1,3 @@
-### DISCLAIMER: I never said it was good code, it just somehow works 🫠
- 
 import streamlit as st
 import pandas as pd
 import openai
@@ -49,9 +47,9 @@ def get_uploaded_file(upload_option):
     if upload_option == 'Connect to Keboola Storage':
         add_keboola_table_selection()
         st.session_state.setdefault('uploaded_file', None)
-    elif upload_option == 'Upload a CSV file':
-        file = st.sidebar.file_uploader("Choose a file", type='csv')
-        st.session_state['uploaded_file'] = file
+    #elif upload_option == 'Upload a CSV file':
+    #    file = st.sidebar.file_uploader("Choose a file", type='csv')
+    #    st.session_state['uploaded_file'] = file
     elif upload_option == 'Use Demo Dataset':
         file = image_path + "/data/sample_data.csv"
         st.session_state['uploaded_file'] = file
@@ -98,7 +96,7 @@ def main():
 
     upload_option = st.sidebar.selectbox('Select an upload option:', 
                                     ['Connect to Keboola Storage',
-                                    'Upload a CSV file',
+                                    #'Upload a CSV file',
                                     'Use Demo Dataset'
                                      ], help="""
     You can get your own API token by following these instructions:
