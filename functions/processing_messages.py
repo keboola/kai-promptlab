@@ -73,3 +73,26 @@ messages = [
   "All systems go! Ready for launch 🚀",
   "Finishing up so you can be the data hero 🦸"
 ]
+
+improvement_statements = [
+    "Polishing your prompt 💎",
+    "Sprucing things up 🌱",
+    "Elevating your input 🎈",
+    "Upgrading in progress ⏫",
+    "Making it shine brighter ✨",
+    "Turning good into great 👌",
+    "Boosting to perfection 🚀",
+    "Refining your words 🖋️",
+    "Adding the finishing touch 🎨",
+    "Making it even more awesome 😎",
+    "Improving as we speak 🗣️",
+    "Taking it to the next level 📶",
+    "Revamping for brilliance 🌟",
+    "Enhancing the essence 💡",
+    "Optimizing every letter 🔍",
+    "Redefining its best 🔄",
+    "Gearing up for greatness ⚙️",
+    "Perfecting the pieces 🧩",
+    "Tweaking to top-tier 🎖️",
+    "Turning up the terrific 📈"
+]

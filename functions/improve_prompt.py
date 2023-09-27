@@ -19,7 +19,8 @@ def get_improved_input(user_input, temperature):
             content=best_practices_var    
         ),
         HumanMessage(
-            content=user_input),
+            content=user_input
+            ),
     ]
     return llm(messages)
 
@@ -39,21 +40,21 @@ def improve_prompt_ui():
             
             with st.expander("__Set the temperature__"):
                 col1, _, _ = st.columns(3)
-                temp_prompt = col1.slider("Temperature", min_value=0.0, max_value=1.0, value=DEFAULT_TEMP) 
+                temp_prompt = col1.slider("Temperature", min_value=0.0, max_value=1.0, value=DEFAULT_TEMP, 
+                                          help="Lower values for temperature result in more consistent outputs, while higher values generate more diverse and creative results. Select a temperature value based on the desired trade-off between coherence and creativity for your specific application.", 
+        ) 
         
             if improve and user_input:
+                improve_state = st.text("")
                 improved_input = get_improved_input(user_input, temp_prompt)
                 st.session_state.improved_content = improved_input.content
-                st.session_state.last_user_input = user_input
-            
+                improve_state.warning("If you use the improved prompt, the best practice is to place your input data after the backticks.", icon="💡")
+                   
             if "improved_content" in st.session_state:
                 st.code(st.session_state.improved_content, language="http")
-                st.write("💡 If you use the improved prompt, the best practice is to put your inputs after the backticks.")
 
 def improve_prompt():
     if 'improved_content' not in st.session_state:
         st.session_state.improved_content = ""
-    if 'last_user_input' not in st.session_state:
-        st.session_state.last_user_input = ""
     
     improve_prompt_ui()
