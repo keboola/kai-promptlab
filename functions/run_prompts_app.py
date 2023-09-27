@@ -23,11 +23,12 @@ def init_session_states():
 
 def check_missing_cols(df, prompts_list):
     placeholder_columns = re.findall(r'\[\[(.*?)\]\]', ''.join(prompts_list.values()))
-
     missing_cols = [col for col in placeholder_columns if col not in df.columns]
+    
     if missing_cols:
         st.warning(f"The following columns are missing from the table: {', '.join(missing_cols)}")
 
+# Get similarity score
 def compute_similarity_product(row, num_prompts, model):
     scores = []
     sentences = [f'prompt_{i + 1}' for i in range(num_prompts)]

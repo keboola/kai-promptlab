@@ -16,7 +16,7 @@ def prompt_input(row, prompt, col_name, placeholder_columns, params):
 
     conversation = [
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": prepared_prompt}]
+            {"role": "user", "content": f'{prepared_prompt}'}]
     
     try:
         response = openai.ChatCompletion.create(

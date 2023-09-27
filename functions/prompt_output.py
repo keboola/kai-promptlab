@@ -14,15 +14,15 @@ def get_prompts(num_prompts):
     prompts_list = {}
     for i in range(num_prompts):
         prompt_input = st.text_area(
-            f'Prompt {i+1}:', 
-            placeholder=f'Prompt {i+1}:', 
+            f'Prompt {i + 1}:', 
+            placeholder=f'Prompt {i + 1}:', 
             label_visibility="collapsed"
         )
-        prompts_list[f"prompt_{i+1}"] = prompt_input
+        prompts_list[f"prompt_{i + 1}"] = prompt_input
 
-        with st.expander(f"__Prompt {i+1} parameters setting__"):
-            response_params = get_parameters(f"prompt_{i+1}")
-            st.session_state[f"response_params_{i+1}"] = response_params
+        with st.expander(f"__Prompt {i + 1} parameters setting__"):
+            response_params = get_parameters(f"prompt_{i + 1}")
+            st.session_state[f"response_params_{i + 1}"] = response_params
 
     return prompts_list
 
