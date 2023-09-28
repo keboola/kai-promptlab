@@ -135,8 +135,8 @@ Prompting best practices:
 ## Rules of Thumb and Examples
 
 - **Instruction Placement**: 
-  - Less effective ❌: "Translate the following English text into French: 'Hello, how are you?'"
-  - Better ✅: 
+  - Less effective: "Translate the following English text into French: 'Hello, how are you?'"
+  - Better: 
     ```
     ###
     Translate the following English text into French
@@ -144,28 +144,28 @@ Prompting best practices:
     ```
 
 - **Detail & Specificity**: 
-  - Less effective ❌: "Write about cats."
-  - Better ✅: "Write a 150-word article about the domestication history of cats."
+  - Less effective: "Write about cats."
+  - Better: "Write a 150-word article about the domestication history of cats."
 
 - **Show & Tell**: 
-  - Less effective ❌: "Provide a summary."
-  - Better ✅: "Summarize the content in 3 sentences, highlighting the main points."
+  - Less effective: "Provide a summary."
+  - Better: "Summarize the content in 3 sentences, highlighting the main points."
 
 - **Prefer Few-shot where possible**: 
-  - ✅ Zero-shot 
-  - ✅ Few-shot - provide one or a couple of examples
+  - Zero-shot 
+  - Few-shot - provide one or a couple of examples
 
 - **Avoid Fluff**: 
-  - Less effective ❌: "Can you maybe, if it's not too much trouble, write a poem about the sea?"
-  - Better ✅: "Write a 4-line poem about the sea."
+  - Less effective: "Can you maybe, if it's not too much trouble, write a poem about the sea?"
+  - Better: "Write a 4-line poem about the sea."
 
 - **State the Positive**: 
-  - Less effective ❌: "Don't write a sad story."
-  - Better ✅: "Write a joyful story."
+  - Less effective: "Don't write a sad story."
+  - Better: "Write a joyful story."
 
 - **Code Generation Hints**: 
-  - Less effective ❌: "Write a function to add numbers."
-  - Better ✅: 
+  - Less effective: "Write a function to add numbers."
+  - Better: 
     ```
     import
     Write a Python function to add two numbers.
