@@ -58,7 +58,7 @@ def get_uploaded_file(upload_option):
 def display_main_content(uploaded_file, openai_api_key):
     if uploaded_file:
         df = pd.read_csv(uploaded_file)
-        st.sidebar.success("The table has been successfully uploaded.")
+        #st.sidebar.success("The table has been successfully uploaded.")
         
         show_data_info(df)
         if st.session_state['uploaded_file'] is not None:
