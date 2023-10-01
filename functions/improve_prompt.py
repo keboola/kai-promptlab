@@ -37,7 +37,7 @@ def improve_prompt_ui():
     with st.chat_message("user", avatar="💬"):
         col1, col2 = st.columns([7, 1])
         with col1: 
-            user_input = st.text_input("User input", label_visibility="collapsed", key="text_improve")
+            user_input = st.text_area("User input", label_visibility="collapsed", key="text_improve")
         with col2: 
             improve = st.button("Improve", use_container_width=True)
             reset = st.button("Reset", use_container_width=True, on_click=clear_text)
