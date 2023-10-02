@@ -11,9 +11,6 @@ from functions.run_prompts_app import run_prompts_app
 from src.keboola_storage_api.connection import add_keboola_table_selection
 from src.st_aggrid.st_aggrid import interactive_table
 
-#from src.keboola_storage_api.upload import main as upload_to_keboola
-#from sec_final_prompts import final_prompts
-
 image_path = os.path.dirname(os.path.abspath(__file__))
 
 def set_page_config():
@@ -25,7 +22,7 @@ def set_page_config():
 
 def display_logo():
     logo_image = image_path+"/static/keboola_logo.png"
-    logo_html = f'<div style="display: flex; justify-content: flex-end;"><img src="data:image/png;base64,{base64.b64encode(open(logo_image, "rb").read()).decode()}" style="width: 100px; margin-left: -10px;"></div>'
+    logo_html = f'<div style="display: flex; justify-content: flex-end;"><img src="data:image/png;base64,{base64.b64encode(open(logo_image, "rb").read()).decode()}" style="width: 150px; margin-left: -10px;"></div>'
     st.markdown(f"{logo_html}", unsafe_allow_html=True)
 
 def set_api_key(): 
