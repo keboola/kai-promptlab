@@ -15,7 +15,7 @@ image_path = os.path.dirname(os.path.abspath(__file__))
 
 def set_page_config():
     st.set_page_config(
-        page_title="Keboola PromptLab",
+        page_title="Kai PromptLab",
         page_icon=image_path+"/static/keboola.png",
         layout="wide"
         )
@@ -70,7 +70,7 @@ def display_main_content(uploaded_file, openai_api_key):
         display_logo()
     else:
         st.markdown("""
-        __Welcome to Keboola PromptLab!__ 
+        __Welcome to Kai PromptLab!__ 
                     
         🔄 Start by connecting to the Keboola storage, you'll need your API token to do this. Just go to _Settings_ in your Keboola account and find the _API Tokens_ tab (see the [documentation](https://help.keboola.com/management/project/tokens/) for more information).
         Once connected, you'll be able to select the bucket and table you want to work with. 
@@ -87,7 +87,7 @@ def display_main_content(uploaded_file, openai_api_key):
 def main():
     set_page_config()
     display_logo()
-    st.title('PromptLab 👩🏻‍🔬')
+    st.title('Kai PromptLab 👩🏻‍🔬')
 
     openai_api_key = set_api_key()
 
