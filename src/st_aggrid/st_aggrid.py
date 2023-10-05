@@ -5,7 +5,7 @@ from st_aggrid.shared import GridUpdateMode
 ########################################################################################################################
 ######################################### INTERACTIVE TABLE ############################################################
 def interactive_table():
-    query_df = pd.read_csv(st.session_state['uploaded_file'] )
+    query_df = pd.read_csv(st.session_state['uploaded_file'])
     def aggrid_interactive_table(df: pd.DataFrame):
         """Creates an st-aggrid interactive table based on a dataframe.
         Args:

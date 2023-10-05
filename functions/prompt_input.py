@@ -4,15 +4,19 @@ import streamlit as st
 import openai
 import time
 
-def prompt_input(row, prompt, col_name, placeholder_columns, params):
-    
+def replace_placeholders(prompt, row, placeholder_columns):
     text_in = prompt
     for col in placeholder_columns:
         text_in = text_in.replace(f'[[{col}]]', str(row[col]))
+    return text_in
+
+# OpenAI chat completion
+def prompt_input(row, prompt, col_name, placeholder_columns, params):    
+    prepared_prompt = replace_placeholders(prompt, row, placeholder_columns)
 
     conversation = [
             {"role": "system", "content": "You are a helpful assistant."},
-            {"role": "user", "content": text_in}]
+            {"role": "user", "content": f'{prepared_prompt}'}]
     
     try:
         response = openai.ChatCompletion.create(
@@ -24,7 +28,7 @@ def prompt_input(row, prompt, col_name, placeholder_columns, params):
             frequency_penalty=params['frequency_penalty'],
             presence_penalty=params['presence_penalty']
         )
-        time.sleep(0.5)
+        time.sleep(0.4)
         row[col_name] = response.choices[0].message.content
     
     except Exception as e:
