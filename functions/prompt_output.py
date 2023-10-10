@@ -20,7 +20,7 @@ def get_prompts(num_prompts):
         )
         prompts_dict[f"prompt_{i + 1}"] = prompt_input
 
-        with st.expander(f"__Prompt {i + 1} parameters setting__"):
+        with st.expander(f"__Prompt {i + 1} parameter settings__"):
             response_params = get_parameters(f"prompt_{i + 1}")
             st.session_state[f"response_params_{i + 1}"] = response_params
 

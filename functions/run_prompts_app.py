@@ -58,10 +58,9 @@ def run_prompts_app(df):
     st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Test"}</h3>', 
                 unsafe_allow_html=True)
     st.text(" ")
-    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. For example, test how a prompt performs with a higher temperature setting vs. a lower one.')
+    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. Prompts run horizontally, you get a response(s) for each row of your table. To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
     
     num_prompts = st.number_input("Select number of prompts:", min_value=1, value=2, max_value=3)
-    st.markdown('Prompts run horizontally, you get a response(s) for each row of your table. To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
     
     prompts_list = get_prompts(num_prompts)
     check_missing_cols(df, prompts_list)
@@ -69,8 +68,6 @@ def run_prompts_app(df):
     rows_to_use = int(st.number_input("Select how many rows of the table you want to use:", min_value=1, value=1, max_value=df.shape[0]))
     df_subset = df.head(rows_to_use)
     
-    st.markdown("Once you're happy with your prompts and settings, hit the button below. The app will then work its magic, running all the prompts and return the responses.")
-
     # Get responses
     if st.button('OKaaaAAAaaAYYYy LETS GO 🎢'):
         prompt_output = prompts_out(df_subset, prompts_list)

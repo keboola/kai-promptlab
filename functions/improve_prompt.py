@@ -7,13 +7,13 @@ from langchain.chat_models import ChatOpenAI
 
 from functions.best_practices import best_practices_var
 
-MODEL = "gpt-4"
+MODEL_NAME = ["gpt-4", "gpt-3.5-turbo-16k", "gpt-3.5-turbo"]
 MAX_TOKENS = 2000
 DEFAULT_TEMP = 0.25
 
 # Improve user input
-def get_improved_input(user_input, temperature):
-    llm = ChatOpenAI(model=MODEL, temperature=temperature, max_tokens=MAX_TOKENS)
+def get_improved_input(user_input, model, temperature):
+    llm = ChatOpenAI(model=model, temperature=temperature, max_tokens=MAX_TOKENS)
     messages = [
         SystemMessage(
             content=best_practices_var    
@@ -42,15 +42,16 @@ def improve_prompt_ui():
             improve = st.button("Improve", use_container_width=True)
             reset = st.button("Reset", use_container_width=True, on_click=clear_text)
         
-        with st.expander("__Set the temperature__"):
-            col1, _, _ = st.columns(3)
-            temp_prompt = col1.slider("Temperature", min_value=0.0, max_value=1.0, value=DEFAULT_TEMP, 
+        with st.expander("__Parameter Settings__"):
+            col1, col2, _ = st.columns(3)
+            model_prompt = col1.selectbox("Model", MODEL_NAME)
+            temp_prompt = col2.slider("Temperature", min_value=0.0, max_value=1.0, value=DEFAULT_TEMP, 
                                         help="Lower values for temperature result in more consistent outputs, while higher values generate more diverse and creative results. Select a temperature value based on the desired trade-off between coherence and creativity for your specific application.", 
     ) 
     
         if improve and user_input:
             improve_state = st.text("")
-            improved_input = get_improved_input(user_input, temp_prompt)
+            improved_input = get_improved_input(user_input, model_prompt, temp_prompt)
             st.session_state.improved_content = improved_input.content
             improve_state.warning("If you use the improved prompt, the best practice is to place your input data after the backticks.", icon="💡")
                 
