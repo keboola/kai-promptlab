@@ -2,8 +2,9 @@
 
 import streamlit as st
 
-from langchain.schema import SystemMessage, HumanMessage
 from langchain.chat_models import ChatOpenAI
+from langchain.prompts import ChatPromptTemplate
+from langchain.prompts.chat import SystemMessage, HumanMessagePromptTemplate
 
 from functions.best_practices import best_practices_var
 
@@ -13,16 +14,20 @@ DEFAULT_TEMP = 0.25
 
 # Improve user input
 def get_improved_input(user_input, model, temperature):
-    llm = ChatOpenAI(model=model, temperature=temperature, max_tokens=MAX_TOKENS)
-    messages = [
+    template = ChatPromptTemplate.from_messages(
+    [
         SystemMessage(
-            content=best_practices_var    
+            content=(f'{best_practices_var}'
+                
+            )
         ),
-        HumanMessage(
-            content=user_input
-            ),
+        HumanMessagePromptTemplate.from_template("{text}"),
     ]
-    return llm(messages)
+)
+    
+    llm = ChatOpenAI(model=model, temperature=temperature, max_tokens=MAX_TOKENS)
+
+    return llm(template.format_messages(text=user_input))
 
 def clear_text():
     st.session_state["text_improve"] = ""
@@ -32,7 +37,9 @@ def improve_prompt_ui():
     st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Improve"}</h3>', 
                 unsafe_allow_html=True)
     st.text(" ")
-    st.markdown("🛠️ Already have ideas but still unsure about the wording of your current prompt? Enter your idea, hit the __'Improve'__ button and voilà! You'll get an improved version that follows prompt engineering best practices.")
+    st.markdown("""
+    🛠️ Already have ideas but still unsure about the wording of your current prompt? Enter your idea, hit the __'Improve'__ button and check out the improved version that follows prompt engineering best practices. Put your input data (column names) in double square brackets, e.g. "[[col_name]]".
+                """)
     
     with st.chat_message("user", avatar="💬"):
         col1, col2 = st.columns([7, 1])
@@ -44,7 +51,7 @@ def improve_prompt_ui():
         
         with st.expander("__Parameter Settings__"):
             col1, col2, _ = st.columns(3)
-            model_prompt = col1.selectbox("Model", MODEL_NAME)
+            model_prompt = col1.selectbox("Model", MODEL_NAME, help='For best results, the "gpt-4" model is recommended.')
             temp_prompt = col2.slider("Temperature", min_value=0.0, max_value=1.0, value=DEFAULT_TEMP, 
                                         help="Lower values for temperature result in more consistent outputs, while higher values generate more diverse and creative results. Select a temperature value based on the desired trade-off between coherence and creativity for your specific application.", 
     ) 
@@ -53,7 +60,7 @@ def improve_prompt_ui():
             improve_state = st.text("")
             improved_input = get_improved_input(user_input, model_prompt, temp_prompt)
             st.session_state.improved_content = improved_input.content
-            improve_state.warning("If you use the improved prompt, the best practice is to place your input data after the backticks.", icon="💡")
+            improve_state.warning("The best practice is to place your input data after the backticks.", icon="💡")
                 
         if reset: 
             st.session_state.improved_content = ""

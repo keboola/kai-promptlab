@@ -58,9 +58,20 @@ def run_prompts_app(df):
     st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Test"}</h3>', 
                 unsafe_allow_html=True)
     st.text(" ")
-    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. Prompts run horizontally, you get a response(s) for each row of your table. To use values from your table, put the column name in double square brackets, e.g. "[[column_name]]".')
+    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models.',
+                help="""
+Prompts run horizontally, you get a response(s) for each row of your table. To use values from your table, put your input data (column names) in double square brackets, e.g. "[[column_name]]".
+
+### Task: Generate a Fun Short Message about Product Restock
+You are given a product name and a date. Your task is to generate a fun and engaging short message announcing that the product is back in stock on the given date.
+
+Product: [[product]]
+
+Date: [[date]]
+            """)
     
     num_prompts = st.number_input("Select number of prompts:", min_value=1, value=2, max_value=3)
+    st.warning('Do not forget to put your input data in double square brackets, e.g. "[[col_name]]".')
     
     prompts_list = get_prompts(num_prompts)
     check_missing_cols(df, prompts_list)
