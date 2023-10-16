@@ -109,17 +109,18 @@ def main():
     
     with tab2:
         st.markdown("""
-    ###### 📚 Useful Links
-    - Keboola's [API Tokens Docs](https://help.keboola.com/management/project/tokens/)
-    - OpenAI's [Best practices for prompt engineering](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api)
-    - OpenAI's [Tokenizer](https://platform.openai.com/tokenizer) - learn about language model tokenization
-        
-    ###### 💌 Feedback           
-    If you have any questions, encounter issues, or have suggestions for improving the PromptLab, don't hesitate to reach out! andrea.novakova@keboola.com
-    
-    ###### 🐱 Repo   
-    Find the GitHub repo [here](https://github.com/keboola/kai-promptlab/tree/main).
-                        """)
+###### 🐱 Docs
+- Keboola's [API Tokens](https://help.keboola.com/management/project/tokens/)
+- PromptLab GitHub [repo](https://github.com/keboola/kai-promptlab/tree/main)
+                    
+###### 📚 Useful Links
+- Get your OpenAI API key [here](https://platform.openai.com/account/api-keys)
+- OpenAI's [Best practices for prompt engineering](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api)
+- OpenAI's [Tokenizer](https://platform.openai.com/tokenizer) - learn about language model tokenization
+
+###### 💌 Feedback           
+If you have any questions, encounter issues, or have suggestions for improving the PromptLab, don't hesitate to reach out! andrea.novakova@keboola.com
+        """)
         
 if __name__ == "__main__":
     main()
