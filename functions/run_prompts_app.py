@@ -6,7 +6,7 @@ import math
 import json 
 
 from sentence_transformers import SentenceTransformer, util
-from functions.prompt_output import get_prompts, prompts_out
+from functions.prompt_output import get_prompts, get_response
 
 def init_session_states():
         default_params = {
@@ -55,42 +55,31 @@ def run_prompts_app(df):
     init_session_states()
     
     # Run prompts UI
-    st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Test"}</h3>', 
+    st.markdown(f'<h3 style="border-bottom: 2px solid #3ca0ff; ">{"Test"}</h3>', 
                 unsafe_allow_html=True)
     st.text(" ")
-    st.markdown('🤹 This is your playground. You can fill in 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models.',
-                help="""
-Prompts run horizontally, you get a response(s) for each row of your table. To use values from your table, put your input data (column names) in double square brackets, e.g. "[[column_name]]".
-
-### Task: Generate a Fun Short Message about Product Restock
-You are given a product name and a date. Your task is to generate a fun and engaging short message announcing that the product is back in stock on the given date.
-
-Product: [[product]]
-
-Date: [[date]]
-            """)
+    st.info('🤹 This is your playground. Try up to 3 different prompts, or the same prompt with three different settings, it\'s up to you. However, there are some important things to keep in mind:\n1. Prompts run horizontally, you get a response(s) for each row of your table.\n2. To include data from your table, prompts must include the relevant column names in double square brackets.\n3. In the last step, don\'t forget to select how many rows of your table you want to use. ')
     
     num_prompts = st.number_input("Select number of prompts:", min_value=1, value=2, max_value=3)
-    st.warning('Do not forget to put your input data in double square brackets, e.g. "[[col_name]]".')
     
-    prompts_list = get_prompts(num_prompts)
-    check_missing_cols(df, prompts_list)
+    prompts_dict = get_prompts(num_prompts)
+    check_missing_cols(df, prompts_dict)
 
     rows_to_use = int(st.number_input("Select how many rows of the table you want to use:", min_value=1, value=1, max_value=df.shape[0]))
     df_subset = df.head(rows_to_use)
     
     # Get responses
     if st.button('OKaaaAAAaaAYYYy LETS GO 🎢'):
-        prompt_output = prompts_out(df_subset, prompts_list)
+        prompt_output = get_response(df_subset, prompts_dict)
         st.session_state["response_content"] = prompt_output
         
     # Show responses
     if st.session_state["response_content"] is not None:
 
-        st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Responses"}</h3>', unsafe_allow_html=True)
+        st.markdown(f'<h3 style="border-bottom: 2px solid #3ca0ff; ">{"Responses"}</h3>', unsafe_allow_html=True)
         st.text(" ")
-        st.markdown("🔍 Review the responses and see which prompt fits your data best. You can also check the responses similarity score to pinpoint areas where prompts might seem contradictory. This is a great way to refine your prompts and understand potential model challenges.")
-        st.dataframe(st.session_state["response_content"], use_container_width=True)
+        st.info("🔍 Check out the responses and see which prompt fits your data best. You can also check the responses similarity score to pinpoint areas where prompts might seem contradictory. This is a great way to refine your prompts and understand potential model challenges.")
+        st.dataframe(st.session_state["response_content"], use_container_width=True, hide_index=True)
     
     # Rate, download, reset
         rate_button, get_button, reset_button = st.columns(3)
@@ -98,7 +87,7 @@ Date: [[date]]
             rate_click = st.button('Check responses similarity', use_container_width=True, disabled=(num_prompts == 1))
         
         with get_button: 
-            prompts_list = [{"name": key, "message": value} for key, value in prompts_list.items()]
+            prompts_list = [{"name": key, "message": value} for key, value in prompts_dict.items()]
             params_list = []
             for i in range(num_prompts):
                 param_key = f"response_params_{i+1}"
@@ -123,10 +112,10 @@ Date: [[date]]
             rating_input = rating_input[cols]
             st.session_state['rating_content'] = rating_input
 
-            st.markdown(f'<h3 style="border-bottom: 2px solid #288CFC; ">{"Rating"}</h3>', unsafe_allow_html=True)
+            st.markdown(f'<h3 style="border-bottom: 2px solid #3ca0ff; ">{"Similarity"}</h3>', unsafe_allow_html=True)
             st.text(" ")
-            st.write("🥇 The closer the score is to 1, the higher the similarity between the responses.")
-            st.dataframe(st.session_state['rating_content'], use_container_width=True)
+            st.info("🥇 The closer the score is to 1, the higher the similarity between the responses.")
+            st.dataframe(st.session_state['rating_content'], use_container_width=True, hide_index=True)
 
         if reset_click:
             st.session_state.clear()

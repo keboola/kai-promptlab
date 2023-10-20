@@ -11,7 +11,7 @@ def replace_placeholders(prompt, row, placeholder_columns):
     return text_in
 
 # OpenAI chat completion
-def prompt_input(row, prompt, col_name, placeholder_columns, params):    
+def openai_api_call(row, prompt, col_name, placeholder_columns, params):    
     prepared_prompt = replace_placeholders(prompt, row, placeholder_columns)
 
     conversation = [

@@ -6,7 +6,7 @@ import re
 import random
 
 from functions.get_parameters import get_parameters
-from functions.prompt_input import prompt_input
+from functions.chat_completion import openai_api_call
 from functions.processing_messages import messages
 
 # Get user's prompts and params
@@ -23,38 +23,40 @@ def get_prompts(num_prompts):
         with st.expander(f"__Prompt {i + 1} parameter settings__"):
             response_params = get_parameters(f"prompt_{i + 1}")
             st.session_state[f"response_params_{i + 1}"] = response_params
-
     return prompts_dict
 
-# Placeholder columns
-def generate_placeholder_dict(prompts):
-    placeholder_dict = {}
+# Create placeholder list
+def find_placeholders(prompts):
+    placeholder_set = set()
     for prompt_key in prompts.keys():
         if prompts[prompt_key]:
-            placeholder_dict[prompt_key] = re.findall(r'\[\[(.*?)\]\]', prompts[prompt_key])
-    return placeholder_dict
+            matches = re.findall(r'\[\[(.*?)\]\]', prompts[prompt_key])
+            placeholder_set.update(matches) 
+
+    placeholder_list = list(placeholder_set)
+    return placeholder_list
+
 
 # Get relevant cols to output table
-def output_relevant_cols(df, prompts, placeholder_dict):
+def add_relevant_cols(df, prompts, placeholder_list):
     prompt_output = pd.DataFrame(index=df.index)
 
     for prompt_key in prompts.keys():
         if prompts[prompt_key]:
-            placeholder_columns_in_df = placeholder_dict[prompt_key]
-            relevant_cols = [col for col in placeholder_columns_in_df if col in df.columns]
+            relevant_cols = [col for col in placeholder_list if col in df.columns]
             for col in relevant_cols:
                 prompt_output[col] = df[col]
     return prompt_output
 
 # Get responses 
-def process_prompts(df, prompts, placeholder_dict, prompt_output):
+def create_reponse_df(df, prompts, placeholder_list, prompt_output):
     for idx, prompt_key in enumerate(prompts.keys()):
         random_message = random.choice(messages)
         if prompts[prompt_key]:
             apply_prompt_state = st.text(random_message)
-            placeholder_columns = placeholder_dict[prompt_key]
+            placeholder_columns = placeholder_list
             result_series = df.apply(
-                prompt_input, 
+                openai_api_call, 
                 args=(prompts[prompt_key], prompt_key, placeholder_columns, st.session_state[f"response_params_{idx+1}"]),
                 axis=1
             )
@@ -62,8 +64,8 @@ def process_prompts(df, prompts, placeholder_dict, prompt_output):
             apply_prompt_state.text("Done!")
     return prompt_output
 
-def prompts_out(df, prompts):
-    placeholder_dict = generate_placeholder_dict(prompts)
-    prompt_output = output_relevant_cols(df, prompts, placeholder_dict)
-    prompt_output = process_prompts(df, prompts, placeholder_dict, prompt_output)
+def get_response(df, prompts):
+    placeholder_list = find_placeholders(prompts)
+    prompt_output = add_relevant_cols(df, prompts, placeholder_list)
+    prompt_output = create_reponse_df(df, prompts, placeholder_list, prompt_output)
     return prompt_output
