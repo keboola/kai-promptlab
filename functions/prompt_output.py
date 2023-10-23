@@ -12,17 +12,20 @@ from functions.processing_messages import messages
 # Get user's prompts and params
 def get_prompts(num_prompts):
     prompts_dict = {}
+    columns = st.columns(num_prompts)
     for i in range(num_prompts):
-        prompt_input = st.text_area(
-            f'Prompt {i + 1}:', 
-            placeholder=f'Prompt {i + 1}:', 
-            label_visibility="collapsed"
-        )
-        prompts_dict[f"prompt_{i + 1}"] = prompt_input
+        with columns[i]:
+            prompt_input = st.text_area(
+                f'Prompt {i + 1}:', 
+                placeholder=f'Prompt {i + 1}:', 
+                label_visibility="collapsed", height=300,
+                key=f"prompt_{i + 1}"
+            )
+            prompts_dict[f"prompt_{i + 1}"] = prompt_input
 
-        with st.expander(f"__Prompt {i + 1} parameter settings__"):
-            response_params = get_parameters(f"prompt_{i + 1}")
-            st.session_state[f"response_params_{i + 1}"] = response_params
+            with st.expander(f"__Prompt {i + 1} parameter settings__"):
+                response_params = get_parameters(f"prompt_{i + 1}")
+                st.session_state[f"response_params_{i + 1}"] = response_params
     return prompts_dict
 
 # Create placeholder list

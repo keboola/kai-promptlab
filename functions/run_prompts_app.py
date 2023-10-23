@@ -55,17 +55,35 @@ def run_prompts_app(df):
     init_session_states()
     
     # Run prompts UI
-    st.markdown(f'<h3 style="border-bottom: 2px solid #3ca0ff; ">{"Test"}</h3>', 
-                unsafe_allow_html=True)
+    st.markdown(f'<h3 style="border-bottom: 2px solid #338dff; ">{"Test"}</h3>', unsafe_allow_html=True)    
     st.text(" ")
-    st.info('🤹 This is your playground. Try up to 3 different prompts, or the same prompt with three different settings, it\'s up to you. However, there are some important things to keep in mind:\n1. Prompts run horizontally, you get a response(s) for each row of your table.\n2. To include data from your table, prompts must include the relevant column names in double square brackets.\n3. In the last step, don\'t forget to select how many rows of your table you want to use. ')
+
+    test_info = """
+    🤹 This is your playground. Try up to 3 different prompts, or the same prompt with three different settings, it\'s up to you! However, there are some important things to keep in mind:
     
-    num_prompts = st.number_input("Select number of prompts:", min_value=1, value=2, max_value=3)
+    - Prompts run horizontally, you get a response(s) for each row of your table.
     
+    - Make sure the prompts contain relevant column names in double square brackets.
+
+    - Don\'t forget to select how many rows of your table you want to use.
+    """
+    
+    html_code = f"""
+    <div style="background-color: rgba(244,249,254,255); olor:#283338; font-size: 16px; border-radius: 10px; padding: 15px 15px 1px 15px;">
+        {test_info}
+    </div>
+    """
+    st.markdown(html_code, unsafe_allow_html=True)
+    st.text(" ")
+
+    col1, _, _ =st.columns(3)
+    num_prompts = col1.number_input("Select number of prompts:", min_value=1, value=2, max_value=3, )
+
     prompts_dict = get_prompts(num_prompts)
     check_missing_cols(df, prompts_dict)
-
-    rows_to_use = int(st.number_input("Select how many rows of the table you want to use:", min_value=1, value=1, max_value=df.shape[0]))
+    
+    col1, _, _ =st.columns(3)
+    rows_to_use = col1.number_input("Select how many rows of the table you want to use:", min_value=1, value=1, max_value=df.shape[0])
     df_subset = df.head(rows_to_use)
     
     # Get responses
@@ -78,13 +96,18 @@ def run_prompts_app(df):
 
         st.markdown(f'<h3 style="border-bottom: 2px solid #3ca0ff; ">{"Responses"}</h3>', unsafe_allow_html=True)
         st.text(" ")
-        st.info("🔍 Check out the responses and see which prompt fits your data best. You can also check the responses similarity score to pinpoint areas where prompts might seem contradictory. This is a great way to refine your prompts and understand potential model challenges.")
+
+        resp_info = "🔍 Check out the responses and see which prompt fits your data best."
+        st.markdown(f'<p style="background-color:rgba(244,249,254,255);color:#283338;font-size:16px;border-radius:10px;padding:15px;">{resp_info}</p>', unsafe_allow_html=True)
+
         st.dataframe(st.session_state["response_content"], use_container_width=True, hide_index=True)
-    
+
     # Rate, download, reset
+        st.write("What next? 👀 Check the response similarity score to pinpoint areas where prompts might seem contradictory, it's a great way to refine your prompts and understand potential model challenges. Download the prompts with their settings, or start from scratch with a different dataset!")
+        
         rate_button, get_button, reset_button = st.columns(3)
         with rate_button: 
-            rate_click = st.button('Check responses similarity', use_container_width=True, disabled=(num_prompts == 1))
+            rate_click = st.button('Check the similarity score', use_container_width=True, disabled=(num_prompts == 1))
         
         with get_button: 
             prompts_list = [{"name": key, "message": value} for key, value in prompts_dict.items()]
@@ -114,9 +137,12 @@ def run_prompts_app(df):
 
             st.markdown(f'<h3 style="border-bottom: 2px solid #3ca0ff; ">{"Similarity"}</h3>', unsafe_allow_html=True)
             st.text(" ")
-            st.info("🥇 The closer the score is to 1, the higher the similarity between the responses.")
+
+            score_info = "🥇 The closer the score is to 1, the higher the similarity between the responses."
+            st.markdown(f'<p style="background-color:rgba(244,249,254,255);color:#283338;font-size:16px;border-radius:10px;padding:15px;">{score_info}</p>', unsafe_allow_html=True)
+
             st.dataframe(st.session_state['rating_content'], use_container_width=True, hide_index=True)
 
         if reset_click:
             st.session_state.clear()
-            st.experimental_rerun()
+            st.rerun()

@@ -43,7 +43,7 @@ def get_uploaded_file(upload_option):
     elif upload_option == 'Use Demo Dataset':
         file = image_path + "/data/sample_data.csv"
         st.session_state['uploaded_file'] = file
-    return st.session_state.get('uploaded_file')
+    return st.session_state['uploaded_file']
 
 def display_main_content(uploaded_file, openai_api_key):
     if uploaded_file:
@@ -64,21 +64,28 @@ def display_main_content(uploaded_file, openai_api_key):
     else:
         st.markdown("""
         __Welcome to the PromptLab!__ 
+        
+        🔄 __Connect__
                     
-        🔄 Start by connecting to the Keboola storage, you'll need your API token to do this. Just go to _Settings_ in your Keboola account and find the _API Tokens_ tab (see the [documentation](https://help.keboola.com/management/project/tokens/) for more information).
-        Once connected, you'll be able to select the bucket and table you want to work with. 
+        - Start by connecting to the Keboola storage, you'll need your API token to do this. To get it, go to _Settings_ in your Keboola account and find the _API Tokens_ tab (see the [documentation](https://help.keboola.com/management/project/tokens/) for more information).
+        You will then be able to select the bucket and table you want to work with. 
                     
-        __The app has 3 main sections:__
+        - You'll also need an OpenAI API key. If you don't have one, you can get it [here](https://platform.openai.com/account/api-keys).
+
+        __Once connected, you can use the app in the following steps:__
                     
-        📊 __Explore__ – Here you'll see the uploaded table to make sure you are working with the correct data.
+        📊 __1. Explore__ – In this section, you'll see the uploaded table to make sure you are working with the correct data.
                     
-        🛠️ __Improve__ – If you have ideas but are unsure about the wording of your prompts, use this section. Simply enter your idea and hit the __'Improve'__ button. The app will return an improved version that follows prompt engineering best practices.
+        🛠️ __2. Improve__ – If you have ideas but are unsure about the wording of your prompts, have them improved here. Simply enter your idea and hit the _Improve_ button. The app will return an improved version that follows prompt engineering best practices.
                    
-        🤹‍♂️ __Test__ – This is where you can experiment and fine-tune your prompts. You can input 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. Additionally, you can specify the portion of your dataset you want to work with.
-      
+        🤹‍♂️ __3. Test__ – This is where you can experiment and fine-tune your prompts. You can input 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models.
+         
+        If you ever feel lost, you can always find this information in the _Guide_ tab.
                     """)
 
 def main():
+    if 'uploaded_file' not in st.session_state:
+        st.session_state['uploaded_file'] = None
 
     upload_option = st.sidebar.selectbox('Select an upload option:', 
                                     ['Connect to Keboola Storage',
@@ -90,6 +97,7 @@ def main():
     2. Go to the __API Tokens__ tab.
     3. Click on __+ NEW TOKEN__ button, set it and __CREATE__.
     """)
+
     uploaded_file = get_uploaded_file(upload_option)
 
     tab1, tab2 = st.tabs(["App", "Guide"])
