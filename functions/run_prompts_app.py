@@ -59,7 +59,7 @@ def run_prompts_app(df):
     st.text(" ")
 
     test_info = """
-    🤹 This is your playground. Try up to 3 different prompts, or the same prompt with three different settings, it\'s up to you! However, there are some important things to keep in mind:
+    🤹 This is your playground. Try up to 3 different prompts, or the same prompt with different settings, it\'s up to you! However, there are some important things to keep in mind:
     
     - Prompts run horizontally, you get a response(s) for each row of your table.
     
@@ -103,7 +103,7 @@ def run_prompts_app(df):
         st.dataframe(st.session_state["response_content"], use_container_width=True, hide_index=True)
 
     # Rate, download, reset
-        st.write("What next? 👀 Check the response similarity score to pinpoint areas where prompts might seem contradictory, it's a great way to refine your prompts and understand potential model challenges. Download the prompts with their settings, or start from scratch with a different dataset!")
+        st.markdown("What's next? 👀 Check the response similarity score to pinpoint areas where prompts might seem contradictory, it's a great way to refine your prompts and understand potential model challenges. Download the prompts with their settings, or start from scratch with a different table!")
         
         rate_button, get_button, reset_button = st.columns(3)
         with rate_button: 

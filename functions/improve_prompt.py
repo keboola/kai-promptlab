@@ -58,11 +58,8 @@ def improve_prompt_ui():
     st.text(" ")
 
     improve_info = """
-    🛠️ Get an improved version of your prompt. Include the relevant column names from your table in double square brackets: [[col_name]].
+    🛠️ Get an improved version of your prompt that follows prompt engineering best practices. Include the relevant column names from your table in double square brackets: [[col_name]].
 """
-    #Once you get the new version of your prompt and you are happy with the wording and examples given, simply copy it in the top right corner and use it in the next step.
-    #"""
-
     html_code = f"""
     <div style="background-color: rgba(244,249,254,255); olor:#283338; font-size: 16px; border-radius: 10px; padding: 15px 15px 1px 15px;">
         {improve_info}
@@ -101,12 +98,10 @@ def improve_prompt_ui():
         chat_box.code(st.session_state.improved_content, language="http") 
         with instructions.chat_message("ai"):
             st.markdown("""
-                        Above is the improved version of your prompt that follows prompt engineering best practices.
+                        Here is an improved version of your prompt. If you are happy with the wording and example given, simply copy the entire box in the top right corner and use it in the next step. 
                         
-                        The format of the new prompt is: instruction – example – your input data (column names). If you are happy with the wording and the example given, simply copy the entire box in the top right corner and use it in the next step. 
+                        💡 By providing an example in the prompt, the model will better understand your requirements, returning a more accurate and contextually relevant response.
                         
-                        💡 By providing an example in the prompt, the model will better understand your specific needs and tailor the response to your requirements, returning a more accurate and contextually relevant answer. 
-
                         
                         """)
             
