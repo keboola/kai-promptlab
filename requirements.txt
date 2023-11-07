@@ -1,6 +1,6 @@
 streamlit
 pandas
-openai
+openai==1.1.1
 langchain
 git+https://github.com/keboola/sapi-python-client.git
 streamlit-aggrid
