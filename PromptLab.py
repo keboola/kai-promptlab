@@ -23,7 +23,7 @@ st.markdown(f"{logo_html}", unsafe_allow_html=True)
 
 st.title('Kai PromptLab 👩🏻‍🔬')
 
-OPENAI_API_KEY = st.sidebar.text_input('Enter your OpenAI API Key:', value="sk-xxx",
+OPENAI_API_KEY = st.sidebar.text_input('Enter your OpenAI API Key:', value="Enter API Key",
     help= """
     You can get your own OpenAI API key by following these instructions:
     1. Go to https://platform.openai.com/account/api-keys.
@@ -34,7 +34,7 @@ OPENAI_API_KEY = st.sidebar.text_input('Enter your OpenAI API Key:', value="sk-x
     )
 
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-openai.api_key = OPENAI_API_KEY
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 def get_uploaded_file(upload_option):
     if upload_option == 'Connect to Keboola Storage':
@@ -53,7 +53,7 @@ def display_main_content(uploaded_file, openai_api_key):
         if st.session_state['uploaded_file'] is not None:
             interactive_table()
         
-        if len(openai_api_key) < 7:
+        if len(openai_api_key) < 14:
             st.warning("To continue, please enter your OpenAI API Key.")
         
         improve_prompt()
@@ -70,7 +70,7 @@ def display_main_content(uploaded_file, openai_api_key):
         - Start by connecting to the Keboola storage, you'll need your API token to do this. To get it, go to _Settings_ in your Keboola account and find the _API Tokens_ tab (see the [documentation](https://help.keboola.com/management/project/tokens/) for more information).
         You will then be able to select the bucket and table you want to work with. 
                     
-        - You'll also need an OpenAI API key. If you don't have one, you can get it [here](https://platform.openai.com/account/api-keys).
+        - You'll also need an OpenAI API key; if you don't have one, you can get it [here](https://platform.openai.com/account/api-keys).
 
         __Once connected, you can use the app in the following steps:__
                     
@@ -111,15 +111,16 @@ def main():
         
         📊 __Explore__ – Here you'll see the uploaded table to make sure you are working with the correct data.
                     
-        🛠️ __Improve__ – If you have ideas but are unsure about the wording of your prompts, use this section. Simply enter your idea and hit the __'Improve'__ button. The app will return an improved version of your prompt that follows prompt engineering best practices.
+        🛠️ __Improve__ – If you have ideas but are unsure about the wording of your prompts, use this section. Simply enter your idea and hit the _Improve_ button. The app will return an improved version of your prompt that follows prompt engineering best practices.
                    
         🤹‍♂️ __Test__ – This is where you can experiment and fine-tune your prompts. You can input 1-3 prompts to run with your data. Each prompt comes with its own settings, allowing you to tweak parameters or compare results across different models. Additionally, you can specify the portion of your dataset you want to work with.
         
         💌 __Feedback__ – If you have any questions, encounter issues, or have suggestions for improving the PromptLab, don't hesitate to reach out! andrea.novakova@keboola.com
         
-        🔗 __Links__
+        🔗 __Useful Links__
         - Keboola's [API Tokens](https://help.keboola.com/management/project/tokens/)
         - Get your OpenAI API key [here](https://platform.openai.com/account/api-keys)
+        - Read the prompt engineering [best practices](https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-openai-api)
         - PromptLab [GitHub repo](https://github.com/keboola/kai-promptlab/tree/main)
 
                     """)

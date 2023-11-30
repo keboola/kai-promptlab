@@ -4,11 +4,15 @@ import streamlit as st
 import openai
 import time
 
+from openai import OpenAI
+
 def replace_placeholders(prompt, row, placeholder_columns):
     text_in = prompt
     for col in placeholder_columns:
         text_in = text_in.replace(f'[[{col}]]', str(row[col]))
     return text_in
+
+client = OpenAI()
 
 # OpenAI chat completion
 def openai_api_call(row, prompt, col_name, placeholder_columns, params):    
@@ -19,7 +23,7 @@ def openai_api_call(row, prompt, col_name, placeholder_columns, params):
             {"role": "user", "content": f'{prepared_prompt}'}]
     
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=params['model'],
             messages=conversation,
             temperature=params['temperature'],

@@ -1,7 +1,6 @@
 # improve_prompt.py
 
 import streamlit as st
-import openai 
 
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.chat_models import ChatOpenAI
@@ -9,7 +8,7 @@ from langchain.schema import HumanMessage, SystemMessage
 
 from functions.best_practices import best_practices_var
 
-MODEL_NAME = ["gpt-4", "gpt-3.5-turbo-16k", "gpt-3.5-turbo"]
+MODEL_NAME = ["gpt-4", "gpt-4-1106-preview", "gpt-3.5-turbo-16k", "gpt-3.5-turbo"]
 MAX_TOKENS = 2000
 DEFAULT_TEMP = 0.25
 
@@ -40,10 +39,10 @@ def get_improved_prompt(query, chat_box, model_prompt, temp_prompt):
         content=query
         ),
     ]
-    
+
     stream_handler = StreamHandler(chat_box, display_method='code')
     chat = ChatOpenAI(model=model_prompt, temperature=temp_prompt, max_tokens=MAX_TOKENS, streaming=True, callbacks=[stream_handler])
-
+                      
     try:
         response = chat(messages)
         return response.content
@@ -110,4 +109,3 @@ def improve_prompt():
         st.session_state.improved_content = ""
     
     improve_prompt_ui()
-
