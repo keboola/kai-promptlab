@@ -1,8 +1,8 @@
-# prompt_input.py
+# chat_completion.py
 
 import streamlit as st
-import openai
 import time
+import os
 
 from openai import OpenAI
 
@@ -12,10 +12,10 @@ def replace_placeholders(prompt, row, placeholder_columns):
         text_in = text_in.replace(f'[[{col}]]', str(row[col]))
     return text_in
 
-client = OpenAI()
-
 # OpenAI chat completion
 def openai_api_call(row, prompt, col_name, placeholder_columns, params):    
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    
     prepared_prompt = replace_placeholders(prompt, row, placeholder_columns)
 
     conversation = [
