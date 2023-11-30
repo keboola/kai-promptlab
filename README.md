@@ -14,7 +14,7 @@ After connecting to the selected table, you should see a preview of your data. E
 
 ## Using the App
 
-🗝️ __OpenAI API Key__ – To use the PromptLab, you will need an OpenAI API key. If you don't have one, you can get it [here](https://platform.openai.com/account/api-keys).
+To use the PromptLab, you will need an OpenAI API key. If you don't have one, you can get it [here](https://platform.openai.com/account/api-keys).
 
 ### 🛠️ Improve
 If you have ideas but are uncertain about the wording of your prompts, PromptLab has you covered. Simply enter your idea, and click the "Improve" button. The app will provide you with an improved version of your prompt that adheres to prompt engineering best practices.

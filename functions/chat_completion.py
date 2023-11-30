@@ -1,8 +1,10 @@
-# prompt_input.py
+# chat_completion.py
 
 import streamlit as st
-import openai
 import time
+import os
+
+from openai import OpenAI
 
 def replace_placeholders(prompt, row, placeholder_columns):
     text_in = prompt
@@ -11,7 +13,9 @@ def replace_placeholders(prompt, row, placeholder_columns):
     return text_in
 
 # OpenAI chat completion
-def prompt_input(row, prompt, col_name, placeholder_columns, params):    
+def openai_api_call(row, prompt, col_name, placeholder_columns, params):    
+    client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+    
     prepared_prompt = replace_placeholders(prompt, row, placeholder_columns)
 
     conversation = [
@@ -19,7 +23,7 @@ def prompt_input(row, prompt, col_name, placeholder_columns, params):
             {"role": "user", "content": f'{prepared_prompt}'}]
     
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=params['model'],
             messages=conversation,
             temperature=params['temperature'],

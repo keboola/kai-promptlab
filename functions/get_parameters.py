@@ -6,10 +6,7 @@ def get_parameters(prefix=""):
     
     col1, col2, col3 = st.columns(3)
 
-    models = [
-        "gpt-3.5-turbo", "gpt-3.5-turbo-0613", "gpt-3.5-turbo-16k", "gpt-3.5-turbo-16k-0613", 
-        "gpt-4", "gpt-4-0613", "gpt-4-32k", "gpt-4-32k-0613"    
-    ]
+    models = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k", "gpt-4", "gpt-4-32k", "gpt-4-1106-preview"]
     
     model = col1.selectbox("Model", models, key=f"{prefix}set_model")
 
